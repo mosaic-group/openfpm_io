@@ -89,7 +89,9 @@ template<unsigned int i, typename ele_g, bool has_attributes> std::string get_po
 			// if the type is not supported skip-it
 			if (type.size() == 0)
 			{
+#ifndef DISABLE_ALL_RTTI
 				std::cerr << "Error " << __FILE__ << ":" << __LINE__ << " the type " << demangle(typeid(ctype).name()) << " is not supported by vtk\n";
+#endif
 				return "";
 			}
 

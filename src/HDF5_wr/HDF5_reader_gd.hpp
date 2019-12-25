@@ -88,7 +88,7 @@ public:
 													openfpm::vector<device_grid> & loc_grid_old,
 													openfpm::vector<GBoxes<device_grid::dims>> & gdb_ext_old)
 	{
-		Vcluster<> & v_cl = create_vcluster();
+/*		Vcluster<> & v_cl = create_vcluster();
 
 		MPI_Comm comm = v_cl.getMPIComm();
 		MPI_Info info  = MPI_INFO_NULL;
@@ -133,30 +133,8 @@ public:
 		//Create data space in memory
 		hid_t mem_dataspace_id = H5Screate_simple(1, mdim, NULL);
 
-/*
-		if (mpi_rank == 0)
-		{
-			hssize_t size;
-
-			size = H5Sget_select_npoints (mem_dataspace_id);
-			printf ("\nmemspace_id size: %llu\n", size);
-			size = H5Sget_select_npoints (file_dataspace_id);
-			printf ("dataspace_id size: %llu\n", size);
-		}
-*/
 	  	// Read the dataset.
 	    H5Dread(dataset, H5T_NATIVE_INT, mem_dataspace_id, file_dataspace_id, plist_id, metadata_out);
-/*
-		if (mpi_rank == 0)
-		{
-			std::cout << "Metadata_out[]: ";
-			for (int i = 0; i < mpi_size_old; i++)
-			{
-				std::cout << metadata_out[i] << " ";
-			}
-			std::cout << " " << std::endl;
-		}
-*/
 
 	    openfpm::vector<size_t> metadata_accum;
 	    metadata_accum.resize(mpi_size_old);
@@ -240,7 +218,7 @@ public:
 	    H5Dclose(dataset_2);
 	    // Close the file.
 	    H5Fclose(file);
-	    H5Pclose(plist_id);
+	    H5Pclose(plist_id);*/
 	}
 
 };
