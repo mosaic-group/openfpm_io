@@ -16,6 +16,9 @@ if ( HIP_ENABLE AND HIP_FOUND )
 				  ../../openfpm_devices/src/Memleak_check.cpp 
 				  ../../openfpm_devices/src/memory/PtrMemory.cpp)
 
+        #target_include_directories (io PUBLIC ${MPI_C_INCLUDE_DIRS}) # Well ........ it does not work, work around line below
+        set_property(TARGET io PROPERTY COMPILE_FLAGS "-I${MPI_C_INCLUDE_DIRS}")
+
 else()
 
         add_executable(io main.cpp
@@ -45,6 +48,10 @@ if (CUDA_FOUND)
         if (TEST_COVERAGE)
                 target_compile_options(io PRIVATE $<$<COMPILE_LANGUAGE:CUDA>: -Xcompiler "-fprofile-arcs -ftest-coverage">)
         endif()
+endif()
+
+if (HIP_FOUND)
+        SET(CMAKE_EXE_LINKER_FLAGS  "--amdgpu-target=${AMD_ARCH_COMPILE}")
 endif()
 
 target_include_directories (io PUBLIC ${CUDA_INCLUDE_DIRS})
