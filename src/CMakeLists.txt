@@ -6,8 +6,8 @@ add_executable(io main.cpp
 				  MetaParser/MetaParser_unit_test.cpp 
 				  HDF5_wr/HDF5_writer_cuda.cu 
 				  ObjReader/ObjReader_unit_test.cpp  
-				  ../../openfpm_vcluster/src/VCluster/VCluster.cpp
-				  ../../openfpm_devices/src/memory/ShmAllocator_manager.cpp ../../openfpm_devices/src/memory/SemManager.cpp ../../openfpm_devices/src/memory/ShmAllocator.cpp 
+				  ../../openfpm_vcluster/src/VCluster/VCluster.cpp ../../openfpm_vcluster/src/VCluster/InVis.cpp
+				  ../../openfpm_devices/src/memory/ShmAllocator_manager.cpp ../../openfpm_devices/src/memory/SemManager.cpp ../../openfpm_devices/src/memory/ShmAllocator.cpp ../../openfpm_devices/src/memory/ShmBuffer.cpp
 				  ../../openfpm_devices/src/memory/CudaMemory.cu 
 				  ../../openfpm_devices/src/memory/HeapMemory.cpp 
 				  ../../openfpm_devices/src/Memleak_check.cpp 
@@ -30,6 +30,8 @@ if (CUDA_FOUND)
         endif()
 endif()
 
+set(JAVA_HOME /usr/lib/jvm/adoptopenjdk-11-hotspot-amd64)
+
 target_include_directories (io PUBLIC ${CUDA_INCLUDE_DIRS})
 target_include_directories (io PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories (io PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../../openfpm_devices/src/)
@@ -41,11 +43,13 @@ target_include_directories (io PUBLIC ${HDF5_ROOT}/include)
 target_include_directories (io PUBLIC ${TINYOBJLOADER_INCLUDE_DIRS} )
 target_include_directories (io PUBLIC ${Boost_INCLUDE_DIRS})
 target_include_directories (io PUBLIC ${OPENFPM_PDATA_DIR}/src)
+target_include_directories (io PUBLIC ${JAVA_HOME}/include ${JAVA_HOME}/include/linux)
 
 if (PETSC_FOUND)
 	target_include_directories(io PUBLIC ${PETSC_INCLUDES})
 endif()
 
+target_link_libraries(io ${JAVA_HOME}/lib/server/libjvm.so)
 target_link_libraries(io ${Boost_LIBRARIES})
 target_link_libraries(io -L${HDF5_ROOT}/lib hdf5 hdf5_hl)
 target_link_libraries(io -L${TINYOBJLOADER_LIBRARY_DIRS} -ltinyobjloader )
