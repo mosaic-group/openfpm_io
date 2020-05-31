@@ -474,9 +474,9 @@ public:
 		prop_out_v< ele_vpp<typename pair::second>, typename pair::first::value_type::coord_type> pp(point_data, vpp, prop_names,ft);
 
 		if (prp == -1)
-		{boost::mpl::for_each< boost::mpl::range_c<int,0, pair::second::value_type::max_prop> >(pp);}
+		{boost::mpl::for_each_ref< boost::mpl::range_c<int,0, pair::second::value_type::max_prop> >(pp);}
 		else
-		{boost::mpl::for_each< boost::mpl::range_c<int,prp, prp> >(pp);}
+		{boost::mpl::for_each_ref< boost::mpl::range_c<int,prp, prp> >(pp);}
 
 		// Add the last property
 		pp.lastProp();

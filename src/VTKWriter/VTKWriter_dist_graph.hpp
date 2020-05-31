@@ -1249,18 +1249,18 @@ public:
 			dist_prop_out_vertex<Graph> pp(point_data, g);
 
 			if (prp == -1)
-				boost::mpl::for_each<boost::mpl::range_c<int, 0, Graph::V_type::max_prop> >(pp);
+				boost::mpl::for_each_ref<boost::mpl::range_c<int, 0, Graph::V_type::max_prop> >(pp);
 			else
-				boost::mpl::for_each<boost::mpl::range_c<int, prp, prp> >(pp);
+				boost::mpl::for_each_ref<boost::mpl::range_c<int, prp, prp> >(pp);
 
 			// For each property in the edge type produce a point data
 
 			dist_prop_out_edge<Graph> ep(cell_data, g);
 
 			if (prp == -1)
-				boost::mpl::for_each<boost::mpl::range_c<int, 0, Graph::E_type::max_prop> >(ep);
+				boost::mpl::for_each_ref<boost::mpl::range_c<int, 0, Graph::E_type::max_prop> >(ep);
 			else
-				boost::mpl::for_each<boost::mpl::range_c<int, prp, prp> >(ep);
+				boost::mpl::for_each_ref<boost::mpl::range_c<int, prp, prp> >(ep);
 
 			// write the file
 			std::ofstream ofs(file);

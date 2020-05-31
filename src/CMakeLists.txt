@@ -19,6 +19,8 @@ if ( HIP_ENABLE AND HIP_FOUND )
         #target_include_directories (io PUBLIC ${MPI_C_INCLUDE_DIRS}) # Well ........ it does not work, work around line below
         set_property(TARGET io PROPERTY COMPILE_FLAGS "-I${MPI_C_INCLUDE_DIRS}")
 
+	target_compile_definitions(io PUBLIC BOOST_GPU_ENABLED="__device__ __host__")
+
 else()
 
         add_executable(io main.cpp

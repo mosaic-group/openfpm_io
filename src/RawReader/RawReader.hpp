@@ -185,7 +185,7 @@ public:
 			// for each property
 			raw_read<dim,T> rr(gr,raw);
 
-			boost::mpl::for_each< boost::mpl::range_c<int,0, T::max_prop> >(rr);
+			boost::mpl::for_each_ref< boost::mpl::range_c<int,0, T::max_prop> >(rr);
 		}
 
 		return true;
