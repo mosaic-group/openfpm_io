@@ -22,7 +22,7 @@ public:
 	template<typename device_grid>
 	inline void save(const std::string & filename,
 			         const openfpm::vector<device_grid> & loc_grid,
-					 const openfpm::vector<GBoxes<device_grid::dims>> & gdb_ext) const
+					 const openfpm::vector_ofp<GBoxes<device_grid::dims>> & gdb_ext) const
 	{
 		Vcluster<> & v_cl = create_vcluster();
 

@@ -24,7 +24,7 @@ class HDF5_reader<GRID_DIST>
 					hid_t plist_id,
 					hid_t dataset_2,
 					openfpm::vector<device_grid> & loc_grid_old,
-					openfpm::vector<GBoxes<device_grid::dims>> & gdb_ext_old)
+					openfpm::vector_ofp<GBoxes<device_grid::dims>> & gdb_ext_old)
 	{
 		hsize_t offset[1];
 		hsize_t block[1];
@@ -66,7 +66,7 @@ class HDF5_reader<GRID_DIST>
 		Unpack_stat ps;
 
 		openfpm::vector<device_grid> loc_grid_old_unp;
-		openfpm::vector<GBoxes<device_grid::dims>> gdb_ext_old_unp;
+		openfpm::vector_ofp<GBoxes<device_grid::dims>> gdb_ext_old_unp;
 
 		Unpacker<typename std::remove_reference<decltype(loc_grid_old)>::type,HeapMemory>::unpack(mem,loc_grid_old_unp,ps,1);
 		Unpacker<typename std::remove_reference<decltype(gdb_ext_old)>::type,HeapMemory>::unpack(mem,gdb_ext_old_unp,ps,1);
@@ -86,7 +86,7 @@ public:
 
 	template<typename device_grid> inline void load(const std::string & filename,
 													openfpm::vector<device_grid> & loc_grid_old,
-													openfpm::vector<GBoxes<device_grid::dims>> & gdb_ext_old)
+													openfpm::vector_ofp<GBoxes<device_grid::dims>> & gdb_ext_old)
 	{
 		Vcluster<> & v_cl = create_vcluster();
 
