@@ -6,7 +6,7 @@ add_executable(io main.cpp
 				  MetaParser/MetaParser_unit_test.cpp 
 				  HDF5_wr/HDF5_writer_cuda.cu 
 				  ObjReader/ObjReader_unit_test.cpp  
-				  ../../openfpm_vcluster/src/VCluster/VCluster.cpp ../../openfpm_vcluster/src/VCluster/InVis.cpp
+				  ../../openfpm_vcluster/src/VCluster/VCluster.cpp ../../openfpm_vcluster/src/VCluster/InVis.cpp ../../openfpm_vcluster/src/VCluster/InVisVolume.cpp
 				  ../../openfpm_devices/src/memory/ShmAllocator_manager.cpp ../../openfpm_devices/src/memory/SemManager.cpp ../../openfpm_devices/src/memory/ShmAllocator.cpp ../../openfpm_devices/src/memory/ShmBuffer.cpp
 				  ../../openfpm_devices/src/memory/CudaMemory.cu 
 				  ../../openfpm_devices/src/memory/HeapMemory.cpp 
