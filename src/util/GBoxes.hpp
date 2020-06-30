@@ -45,6 +45,22 @@ struct GBoxes
 	//! origin of GDbox in global grid coordinates
 	Point<dim,long int> origin;
 
+    /*! \brief Produce a string from the object
+     *
+     * \return string
+     *
+     */
+    std::string toString() const
+    {
+        std::stringstream str;
+
+        str << "GDBox: " << GDbox.toString() << " ";
+        str << "DBox: " << Dbox.toString() << " ";
+        str << "Origin: " << origin.toString();
+
+        return str.str();
+    }
+
 	/*! \brief Indicate that this structure has no pointers inside
 	 *
 	 * \return true
