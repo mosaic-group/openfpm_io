@@ -13,7 +13,7 @@
 #include "Packer_Unpacker/Unpacker.hpp"
 
 template <>
-class HDF5_writer<VECTOR_DIST>
+class HDF5_writer<VECTOR_DIST_HDF5_WR>
 {
 public:
 

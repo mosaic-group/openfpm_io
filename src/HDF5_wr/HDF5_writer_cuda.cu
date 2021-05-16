@@ -49,12 +49,12 @@ BOOST_AUTO_TEST_CASE( vector_dist_hdf5_save_test_gpu )
 		vprp.template get<3>(vprp.size()-1)[2][2] = p.get(0) + 101600.0;
 	}
 
-	HDF5_writer<VECTOR_DIST> h5;
+	HDF5_writer<VECTOR_DIST_HDF5_WR> h5;
 
 	// Save the vector
     h5.save("vector_dist.h5",vpos,vprp);
 
-    HDF5_reader<VECTOR_DIST> h5r;
+    HDF5_reader<VECTOR_DIST_HDF5_WR> h5r;
 
 	openfpm::vector_gpu<Point<3,float>> vpos2;
 	openfpm::vector_gpu<aggregate<double,float[dim],size_t,float[dim][dim]>> vprp2;

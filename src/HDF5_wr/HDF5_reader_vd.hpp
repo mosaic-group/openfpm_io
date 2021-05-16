@@ -10,7 +10,7 @@
 
 
 template <>
-class HDF5_reader<VECTOR_DIST>
+class HDF5_reader<VECTOR_DIST_HDF5_WR>
 {
 private:
 

@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
+set(CMAKE_SKIP_BUILD_RPATH TRUE)   ###### <--------- This is absolutely necessary if you use linear algebra
+
 ########################### Executables
 
 if (CUDA_ON_CPU)
@@ -10,7 +12,8 @@ endif()
 add_executable(io main.cpp 
 				  MetaParser/MetaParser_unit_test.cpp 
 				  HDF5_wr/HDF5_writer_cuda.cu 
-				  ObjReader/ObjReader_unit_test.cpp)
+				  ObjReader/ObjReader_unit_test.cpp
+				  catalyst/test/insitu_catalyst_unit_tests.cpp)
 
 add_dependencies(io ofpmmemory)
 add_dependencies(io vcluster)
@@ -40,6 +43,8 @@ if (CUDA_FOUND)
         endif()
 endif()
 
+target_include_directories (io PUBLIC ${METIS_ROOT}/include)
+target_include_directories (io PUBLIC ${PARMETIS_ROOT}/include)
 target_include_directories (io PUBLIC ${CUDA_INCLUDE_DIRS})
 target_include_directories (io PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories (io PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../../openfpm_devices/src/)
@@ -52,25 +57,47 @@ target_include_directories (io PUBLIC ${TINYOBJLOADER_INCLUDE_DIRS} )
 target_include_directories (io PUBLIC ${Boost_INCLUDE_DIRS})
 target_include_directories (io PUBLIC ${OPENFPM_PDATA_DIR}/src)
 target_include_directories (io PUBLIC ${ALPAKA_ROOT}/include)
+if (PNG_FOUND)
+    target_include_directories (io PUBLIC {PNG_INCLUDE_DIRS})
+endif()
+get_target_property(CATALYST_INCLUDE catalyst::core INTERFACE_INCLUDE_DIRECTORIES)
+target_include_directories (io PUBLIC ${CATALYST_INCLUDE})
 
 if (PETSC_FOUND)
+	target_compile_definitions(io PUBLIC HAVE_PNG)
 	target_include_directories(io PUBLIC ${PETSC_INCLUDES})
 endif()
 
-target_link_libraries(io ${Boost_LIBRARIES})
-target_link_libraries(io ${HDF5_LIBRARIES})
-target_link_libraries(io ${TINYOBJLOADER_LIBRARIES} )
-target_link_libraries(io vcluster)
-target_link_libraries(io ofpmmemory)
+target_link_libraries(io PRIVATE -L${METIS_ROOT}/lib metis)
+target_link_libraries(io PRIVATE ${PARMETIS_LIBRARIES})
+target_link_libraries(io PRIVATE ${Boost_LIBRARIES})
+target_link_libraries(io PRIVATE ${HDF5_LIBRARIES})
+target_link_libraries(io PRIVATE ${TINYOBJLOADER_LIBRARIES} )
+target_link_libraries(io PRIVATE vcluster)
+target_link_libraries(io PRIVATE ofpmmemory)
+target_link_libraries(io PRIVATE catalyst::catalyst)
+if (PNG_FOUND)
+	target_link_libraries(io PRIVATE ${PNG_LIBRARIES})
+endif()
+
 if (PETSC_FOUND)
-	target_link_libraries(io ${PETSC_LIBRARIES})
+	target_link_libraries(io PRIVATE ${PETSC_LIBRARIES})
+endif()
+
+if (CATALYST_FOUND)
+	target_link_libraries(io PRIVATE catalyst::catalyst)
+endif()
+
+if (Vc_FOUND)
+	target_include_directories (io PUBLIC ${Vc_INCLUDE_DIR})
+	target_link_libraries(io PRIVATE ${Vc_LIBRARIES})
 endif()
 
 # Request that particles be built with -std=c++11
 # As this is a public compile feature anything that links to particles
 # will also build with -std=c++11
 target_compile_features(io PUBLIC cxx_std_11)
-target_link_libraries(io ${MPI_C_LIBRARIES})
+target_link_libraries(io PRIVATE ${MPI_C_LIBRARIES})
 
 if (TEST_COVERAGE)
     target_link_libraries(io -lgcov)

@@ -36,11 +36,18 @@ endif()
 set(ENV{PATH} "$ENV{PATH}:${HDF5_ROOT}/bin")
 set(HDF5_PREFER_PARALLEL TRUE)
 
+set(PARMETIS_DIR ${PARMETIS_ROOT})
+
 find_package(Boost 1.72.0 REQUIRED COMPONENTS unit_test_framework iostreams program_options OPTIONAL_COMPONENTS fiber context)
 find_package(MPI REQUIRED)
+find_package(METIS)
+find_package(ParMETIS)
 find_package(HDF5 REQUIRED)
 find_package(TinyObjLoader)
 find_package(PETSc)
+find_package(catalyst REQUIRED)
+find_package(Vc)
+find_package(PNG)
 
 if(CUDA_FOUND)
 	set(OPENFPM_INIT_FILE "initialize/initialize_wrapper_cuda.cu")
@@ -70,6 +77,10 @@ endif()
 
 if(PETSC_FOUND)
         set(DEFINE_HAVE_PETSC "#define HAVE_PETSC")
+endif()
+
+if(catalyst_FOUND)
+        set(DEFINE_HAVE_CATALYST "#define HAVE_CATALYST")
 endif()
 
 if (Boost_FOUND)

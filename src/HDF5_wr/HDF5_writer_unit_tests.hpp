@@ -40,12 +40,12 @@ BOOST_AUTO_TEST_CASE( vector_dist_hdf5_save_test )
 		vprp.template get<0>(vprp.size()-1)[2] = p.get(2) + 300.0;
 	}
 
-	HDF5_writer<VECTOR_DIST> h5;
+	HDF5_writer<VECTOR_DIST_HDF5_WR> h5;
 
 	// Save the vector
     h5.save("vector_dist.h5",vpos,vprp);
 
-    HDF5_reader<VECTOR_DIST> h5r;
+    HDF5_reader<VECTOR_DIST_HDF5_WR> h5r;
 
 	openfpm::vector<Point<3,float>> vpos2;
 	openfpm::vector<aggregate<float[dim]>> vprp2;
@@ -79,7 +79,7 @@ BOOST_AUTO_TEST_CASE( vector_dist_hdf5_load_test )
 	openfpm::vector<Point<3,float>> vpos;
 	openfpm::vector<aggregate<float[dim]>> vprp;
 
-	HDF5_reader<VECTOR_DIST> h5;
+	HDF5_reader<VECTOR_DIST_HDF5_WR> h5;
 
 	size_t g_m = 0;
 

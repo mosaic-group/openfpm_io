@@ -15,7 +15,7 @@
 #include "util/GBoxes.hpp"
 
 template <>
-class HDF5_writer<GRID_DIST>
+class HDF5_writer<GRID_DIST_HDF5_WR>
 {
 public:
 

@@ -15,7 +15,7 @@
 #include "util/GBoxes.hpp"
 
 template <>
-class HDF5_reader<GRID_DIST>
+class HDF5_reader<GRID_DIST_HDF5_WR>
 {
 	template<typename device_grid> void load_block(long int bid,
 			        hssize_t mpi_size_old,
