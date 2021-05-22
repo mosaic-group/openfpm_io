@@ -48,6 +48,7 @@ find_package(PETSc)
 find_package(catalyst REQUIRED)
 find_package(Vc)
 find_package(PNG)
+find_package(openPMD)
 
 if(CUDA_FOUND)
 	set(OPENFPM_INIT_FILE "initialize/initialize_wrapper_cuda.cu")

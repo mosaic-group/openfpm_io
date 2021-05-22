@@ -13,7 +13,8 @@ add_executable(io main.cpp
 				  MetaParser/MetaParser_unit_test.cpp 
 				  HDF5_wr/HDF5_writer_cuda.cu 
 				  ObjReader/ObjReader_unit_test.cpp
-				  catalyst/test/insitu_catalyst_unit_tests.cpp)
+				  catalyst/test/insitu_catalyst_unit_tests.cpp
+				  OpenPMD_writer/test/OpenPMD_writer_test.cpp)
 
 add_dependencies(io ofpmmemory)
 add_dependencies(io vcluster)
@@ -76,6 +77,7 @@ target_link_libraries(io PRIVATE ${TINYOBJLOADER_LIBRARIES} )
 target_link_libraries(io PRIVATE vcluster)
 target_link_libraries(io PRIVATE ofpmmemory)
 target_link_libraries(io PRIVATE catalyst::catalyst)
+target_link_libraries(io PRIVATE openPMD::openPMD)
 if (PNG_FOUND)
 	target_link_libraries(io PRIVATE ${PNG_LIBRARIES})
 endif()

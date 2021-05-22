@@ -956,10 +956,10 @@ BOOST_AUTO_TEST_CASE( vtk_writer_use_point_set )
 	openfpm::vector<Point<3,double>> v1ps;
 	openfpm::vector<Point<3,double>> v2ps;
 	openfpm::vector<Point<3,double>> v3ps;
-	openfpm::vector<aggregate<float,float[3]>> v1pp;
-	openfpm::vector<aggregate<float,float[3]>> v2pp;
-	openfpm::vector<aggregate<float,float[3]>> v3pp;
-	openfpm::vector<aggregate<float,Point<3,float>>> v4pp;
+	openfpm::vector<aggregate<double,double[3]>> v1pp;
+	openfpm::vector<aggregate<double,double[3]>> v2pp;
+	openfpm::vector<aggregate<double,double[3]>> v3pp;
+	openfpm::vector<aggregate<double,Point<3,double>>> v4pp;
 
     // set the seed
 	// create the random generator engine
@@ -1011,7 +1011,7 @@ BOOST_AUTO_TEST_CASE( vtk_writer_use_point_set )
 	}
 
 	// Create a writer and write
-	VTKWriter<boost::mpl::pair<openfpm::vector<Point<3,double>>,openfpm::vector<aggregate<float,float[3]>>>,VECTOR_POINTS> vtk_v;
+	VTKWriter<boost::mpl::pair<openfpm::vector<Point<3,double>>,openfpm::vector<aggregate<double,double[3]>>>,VECTOR_POINTS> vtk_v;
 	vtk_v.add(v1ps,v1pp,75);
 	vtk_v.add(v2ps,v2pp,88);
 	vtk_v.add(v3ps,v3pp,90);
@@ -1030,7 +1030,7 @@ BOOST_AUTO_TEST_CASE( vtk_writer_use_point_set )
 #endif
 
 	// Create a writer and write
-	VTKWriter<boost::mpl::pair<openfpm::vector<Point<3,double>>,openfpm::vector<aggregate<float,Point<3,float>>>>,VECTOR_POINTS> vtk_v2;
+	VTKWriter<boost::mpl::pair<openfpm::vector<Point<3,double>>,openfpm::vector<aggregate<double,Point<3,double>>>>,VECTOR_POINTS> vtk_v2;
 	vtk_v2.add(v1ps,v4pp,75);
 
 	vtk_v2.write("vtk_points_pp.vtp",prp_names);
@@ -1044,7 +1044,7 @@ BOOST_AUTO_TEST_CASE( vtk_writer_use_point_set )
 #endif
 
 	// Create a writer and write
-	VTKWriter<boost::mpl::pair<openfpm::vector<Point<3,double>>,openfpm::vector<aggregate<float,Point<3,float>>>>,VECTOR_POINTS> vtk_v3;
+	VTKWriter<boost::mpl::pair<openfpm::vector<Point<3,double>>,openfpm::vector<aggregate<double,Point<3,double>>>>,VECTOR_POINTS> vtk_v3;
 	vtk_v3.add(v1ps,v4pp,75);
 
 	vtk_v3.write("vtk_points_pp_header.vtp",prp_names,"points","time=5.123");

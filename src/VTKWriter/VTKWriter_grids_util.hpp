@@ -245,21 +245,20 @@ class prop_write_out
 {
 public:
 
-	template<typename vector, typename iterator, typename I> static void write(std::string & v_out, vector & vg, size_t k, iterator & it, file_type ft)
+	template<typename vector, typename iterator, typename I> static void write(std::ostringstream & v_out, vector & vg, size_t k, iterator & it, file_type ft)
 	{
-
 		if (ft == file_type::ASCII)
 		{
 			// Print the properties
 			for (size_t i1 = 0 ; i1 < vtk_dims<T>::value ; i1++)
 			{
-				v_out += std::to_string(vg.get(k).g.get_o(it.get()).template get<I::value>().get_vtk(i1)) + " ";
+				v_out << vg.get(k).g.get_o(it.get()).template get<I::value>().get_vtk(i1) << " ";
 			}
 			if (vtk_dims<T>::value == 2)
 			{
-				v_out += "0.0";
+				v_out << "0.0";
 			}
-			v_out += "\n";
+			v_out << "\n";
 		}
 		else
 		{
@@ -271,13 +270,13 @@ public:
 			{
 				typename is_vtk_writable<ctype>::base tmp = vg.get(k).g.get_o(it.get()).template get<I::value>().get_vtk(i1);
 				tmp = swap_endian_lt(tmp);
-				v_out.append((const char *)&tmp,sizeof(tmp));
+				v_out.write((const char *)&tmp,sizeof(tmp));
 			}
 			if (vtk_dims<T>::value == 2)
 			{
 				typename is_vtk_writable<ctype>::base zero = 0.0;
 				zero = swap_endian_lt(zero);
-				v_out.append((const char *)&zero,sizeof(zero));
+				v_out.write((const char *)&zero,sizeof(zero));
 			}
 		}
 	}
@@ -301,7 +300,7 @@ public:
 	 *  \param ft output type BINARY or ASCII
 	 *
 	 */
-	template<typename vector, typename iterator, typename I> static void write(std::string & v_out, vector & vg, size_t k, iterator & it, file_type ft)
+	template<typename vector, typename iterator, typename I> static void write(std::ostringstream & v_out, vector & vg, size_t k, iterator & it, file_type ft)
 	{
 		typedef decltype(vg.get(k).g.template get<I::value>(it.get())) ctype_;
 		typedef typename std::remove_const<typename std::remove_reference<ctype_>::type>::type ctype;
@@ -309,13 +308,13 @@ public:
 		if (ft == file_type::ASCII)
 		{
 			// Print the property
-			v_out += std::to_string(vg.get(k).g.template get<I::value>(it.get())) + "\n";
+			v_out << vg.get(k).g.template get<I::value>(it.get()) << "\n";
 		}
 		else
 		{
 			typename is_vtk_writable<ctype>::base tmp = vg.get(k).g.template get<I::value>(it.get());
 			tmp = swap_endian_lt(tmp);
-			v_out.append((const char *)&tmp,sizeof(tmp));
+			v_out.write((const char *)&tmp,sizeof(tmp));
 		}
 	}
 };
@@ -330,7 +329,7 @@ class prop_write_out_new
 {
 public:
 
-    template<typename vector, typename iterator, typename I> static void write(std::string & v_out, vector & vg, size_t k, iterator & it, file_type ft)
+    template<typename vector, typename iterator, typename I> static void write(std::ostringstream & v_out, vector & vg, size_t k, iterator & it, file_type ft)
     {
 
         if (ft == file_type::ASCII)
@@ -338,13 +337,13 @@ public:
             // Print the properties
             for (size_t i1 = 0 ; i1 < vtk_dims<T>::value ; i1++)
             {
-                v_out += std::to_string(vg.get(k).g.get_o(it.get()).template get<I::value>().get_vtk(i1)) + " ";
+                v_out << vg.get(k).g.get_o(it.get()).template get<I::value>().get_vtk(i1) << " ";
             }
             if (vtk_dims<T>::value == 2)
             {
-                v_out += "0.0";
+                v_out << "0.0";
             }
-            v_out += "\n";
+            v_out << "\n";
         }
         else
         {
@@ -355,12 +354,12 @@ public:
             for (size_t i1 = 0 ; i1 < vtk_dims<T>::value ; i1++)
             {
                 typename is_vtk_writable<ctype>::base tmp = vg.get(k).g.get_o(it.get()).template get<I::value>().get_vtk(i1);
-                v_out.append((const char *)&tmp,sizeof(tmp));
+                v_out.write((const char *)&tmp,sizeof(tmp));
             }
             if (vtk_dims<T>::value == 2)
             {
                 typename is_vtk_writable<ctype>::base zero = 0.0;
-                v_out.append((const char *)&zero,sizeof(zero));
+                v_out.write((const char *)&zero,sizeof(zero));
             }
         }
     }
@@ -384,7 +383,7 @@ public:
      *  \param ft output type BINARY or ASCII
      *
      */
-    template<typename vector, typename iterator, typename I> static void write(std::string & v_out, vector & vg, size_t k, iterator & it, file_type ft)
+    template<typename vector, typename iterator, typename I> static void write(std::ostringstream & v_out, vector & vg, size_t k, iterator & it, file_type ft)
     {
         typedef decltype(vg.get(k).g.template get<I::value>(it.get())) ctype_;
         typedef typename std::remove_const<typename std::remove_reference<ctype_>::type>::type ctype;
@@ -392,12 +391,12 @@ public:
         if (ft == file_type::ASCII)
         {
             // Print the property
-            v_out += std::to_string(vg.get(k).g.template get<I::value>(it.get())) + "\n";
+            v_out << vg.get(k).g.template get<I::value>(it.get()) << "\n";
         }
         else
         {
             typename is_vtk_writable<ctype>::base tmp = vg.get(k).g.template get<I::value>(it.get());
-            v_out.append((const char *)&tmp,sizeof(tmp));
+            v_out.write((const char *)&tmp,sizeof(tmp));
         }
     }
 };
@@ -434,6 +433,12 @@ struct meta_prop
         // If the output has changed, we have to write the properties
         if (v_out.size() != sz)
         {
+            std::ostringstream stream_out;
+            if (std::is_same<T,float>::value == true)
+            {stream_out << std::setprecision(7);}
+            else
+            {stream_out << std::setprecision(16);}
+
             // Produce point data
 
             for (size_t k = 0 ; k < vg.size() ; k++)
@@ -444,12 +449,14 @@ struct meta_prop
                 // if there is the next element
                 while (it.isNext())
                 {
-                    prop_write_out<vtk_dims<T>::value,T>::template write<decltype(vg),decltype(it),I>(v_out,vg,k,it,ft);
+                    prop_write_out<vtk_dims<T>::value,T>::template write<decltype(vg),decltype(it),I>(stream_out,vg,k,it,ft);
 
                     // increment the iterator and counter
                     ++it;
                 }
             }
+
+            v_out += stream_out.str();
 
             if (ft == file_type::BINARY)
                 v_out += "\n";
@@ -480,6 +487,12 @@ struct meta_prop<I, ele_g,St,T[N1],is_writable>
         // If the output has changed, we have to write the properties
         if (v_out.size() != sz)
         {
+            std::ostringstream stream_out;
+            if (std::is_same<T,float>::value == true)
+            {stream_out << std::setprecision(7);}
+            else
+            {stream_out << std::setprecision(16);}
+
             // Produce point data
 
             for (size_t k = 0 ; k < vg.size() ; k++)
@@ -494,12 +507,12 @@ struct meta_prop<I, ele_g,St,T[N1],is_writable>
                     {
                         // Print the properties
                         for (size_t i1 = 0 ; i1 < N1 ; i1++)
-                        {v_out += std::to_string(vg.get(k).g.template get<I::value>(it.get())[i1]) + " ";}
+                        {stream_out << vg.get(k).g.template get<I::value>(it.get())[i1] << " ";}
 
                         if (N1 == 2)
-                        {v_out += std::to_string((decltype(vg.get(k).g.template get<I::value>(it.get())[0])) 0);}
+                        {stream_out << (decltype(vg.get(k).g.template get<I::value>(it.get())[0])) 0;}
 
-                        v_out += "\n";
+                        stream_out << "\n";
                     }
                     else
                     {
@@ -510,13 +523,13 @@ struct meta_prop<I, ele_g,St,T[N1],is_writable>
                         {
                             tmp = vg.get(k).g.template get<I::value>(it.get())[i1];
                             tmp = swap_endian_lt(tmp);
-                            v_out.append((const char *)&tmp,sizeof(T));
+                            stream_out.write((const char *)&tmp,sizeof(T));
                         }
                         if (N1 == 2)
                         {
                             tmp = 0.0;
                             tmp = swap_endian_lt(tmp);
-                            v_out.append((const char *)&tmp,sizeof(T));
+                            stream_out.write((const char *)&tmp,sizeof(T));
                         }
                     }
 
@@ -524,6 +537,9 @@ struct meta_prop<I, ele_g,St,T[N1],is_writable>
                     ++it;
                 }
             }
+
+            v_out += stream_out.str();
+
             if (ft == file_type::BINARY)
             {v_out += "\n";}
         }
@@ -549,6 +565,12 @@ struct meta_prop<I, ele_g,St, T[N1][N2],is_writable>
         {
             for (size_t i2 = 0 ; i2 < N2 ; i2++)
             {
+                std::ostringstream stream_out;
+                if (std::is_same<T,float>::value == true)
+                {stream_out << std::setprecision(7);}
+                else
+                {stream_out << std::setprecision(16);}
+
                 // actual string size
                 size_t sz = v_out.size();
 
@@ -573,19 +595,21 @@ struct meta_prop<I, ele_g,St, T[N1][N2],is_writable>
                             if (ft == file_type::ASCII)
                             {
                                 // Print the property
-                                v_out += std::to_string(vg.get(k).g.template get<I::value>(it.get())[i1][i2]) + "\n";
+                                stream_out << vg.get(k).g.template get<I::value>(it.get())[i1][i2] << "\n";
                             }
                             else
                             {
                                 tmp = vg.get(k).g.template get<I::value>(it.get())[i1][i2];
                                 tmp = swap_endian_lt(tmp);
-                                v_out.append((const char *)&tmp,sizeof(tmp));
+                                stream_out.write((const char *)&tmp,sizeof(tmp));
                             }
 
                             // increment the iterator and counter
                             ++it;
                         }
                     }
+
+                    v_out += stream_out.str();
 
                     if (ft == file_type::BINARY)
                         v_out += "\n";
@@ -639,7 +663,13 @@ struct meta_prop_new
 	{
     	// actual string size
     	size_t sz = v_out.size();
-    	std::string v_outToEncode,v_Encoded;
+    	std::ostringstream v_outToEncode_;
+        std::string v_Encoded;
+
+        if (std::is_same<T,float>::value == true)
+        {v_outToEncode_ << std::setprecision(7);}
+        else
+        {v_outToEncode_ << std::setprecision(16);}
 
 		// Produce the point properties header
     	v_out += get_point_property_header_impl_new<I::value,ele_g,has_attributes<typename ele_g::value_type::value_type>::value>("",prop_names,ft);
@@ -648,7 +678,8 @@ struct meta_prop_new
 		if (v_out.size() != sz)
 		{
             if (ft == file_type::BINARY) {
-                v_outToEncode.append(8,0);
+                size_t pp;
+                v_outToEncode_.write((char *)&pp,8);
             }
 			// Produce point data
 			for (size_t k = 0 ; k < vg.size() ; k++)
@@ -659,7 +690,7 @@ struct meta_prop_new
 				// if there is the next element
 				while (it.isNext())
 				{
-					prop_write_out_new<vtk_dims<T>::value,T>::template write<decltype(vg),decltype(it),I>(v_outToEncode,vg,k,it,ft);
+					prop_write_out_new<vtk_dims<T>::value,T>::template write<decltype(vg),decltype(it),I>(v_outToEncode_,vg,k,it,ft);
 
 					// increment the iterator and counter
 					++it;
@@ -668,6 +699,7 @@ struct meta_prop_new
 
             if (ft == file_type::BINARY)
             {
+                std::string v_outToEncode = v_outToEncode_.str();
                 *(size_t *) &v_outToEncode[0] = v_outToEncode.size()-sizeof(size_t);
                 v_Encoded.resize(v_outToEncode.size()/3*4+4);
                 size_t sz=EncodeToBase64((const unsigned char*)&v_outToEncode[0],v_outToEncode.size(),(unsigned char *)&v_Encoded[0],0);
@@ -675,7 +707,7 @@ struct meta_prop_new
                 v_out += v_Encoded + "\n";
             }
             else{
-                v_out += v_outToEncode;
+                v_out += v_outToEncode_.str();
             };
 			v_out += "        </DataArray>\n";
 
@@ -699,7 +731,13 @@ struct meta_prop_new<I, ele_g,St,T[N1],is_writable>
 	{
 	    // actual string size
 	    size_t sz = v_out.size();
-	    std::string v_outToEncode,v_Encoded;
+        std::ostringstream v_outToEncode_;
+	    std::string v_Encoded;
+
+        if (std::is_same<T,float>::value == true)
+        {v_outToEncode_ << std::setprecision(7);}
+        else
+        {v_outToEncode_ << std::setprecision(16);}
 
 		// Produce the point properties header
 		v_out += get_point_property_header_impl_new<I::value,ele_g,has_attributes<typename ele_g::value_type::value_type>::value>("",prop_names,ft);
@@ -708,7 +746,8 @@ struct meta_prop_new<I, ele_g,St,T[N1],is_writable>
 		if (v_out.size() != sz)
 		{
             if (ft == file_type::BINARY) {
-                v_outToEncode.append(8,0);
+                size_t pp = 0;
+                v_outToEncode_.write((char *)&pp,8);
             }
 			// Produce point data
 
@@ -724,12 +763,12 @@ struct meta_prop_new<I, ele_g,St,T[N1],is_writable>
 					{
 						// Print the properties
 						for (size_t i1 = 0 ; i1 < N1 ; i1++)
-						{v_outToEncode += std::to_string(vg.get(k).g.template get<I::value>(it.get())[i1]) + " ";}
+						{v_outToEncode_ << vg.get(k).g.template get<I::value>(it.get())[i1] << " ";}
 
 						if (N1 == 2)
-						{v_outToEncode += std::to_string((decltype(vg.get(k).g.template get<I::value>(it.get())[0])) 0);}
+						{v_outToEncode_ << (decltype(vg.get(k).g.template get<I::value>(it.get())[0])) 0;}
 
-						v_outToEncode += "\n";
+						v_outToEncode_ << "\n";
 					}
 					else
 					{
@@ -740,13 +779,13 @@ struct meta_prop_new<I, ele_g,St,T[N1],is_writable>
 						{
 							tmp = vg.get(k).g.template get<I::value>(it.get())[i1];
 							//tmp = swap_endian_lt(tmp);
-							v_outToEncode.append((const char *)&tmp,sizeof(T));
+							v_outToEncode_.write((const char *)&tmp,sizeof(T));
 						}
 						if (N1 == 2)
 						{
 							tmp = 0.0;
 							//tmp = swap_endian_lt(tmp);
-							v_outToEncode.append((const char *)&tmp,sizeof(T));
+							v_outToEncode_.write((const char *)&tmp,sizeof(T));
 						}
 					}
 
@@ -756,6 +795,7 @@ struct meta_prop_new<I, ele_g,St,T[N1],is_writable>
 			}
             if (ft == file_type::BINARY)
             {
+                std::string v_outToEncode = v_outToEncode_.str();
                 *(size_t *) &v_outToEncode[0] = v_outToEncode.size()-sizeof(size_t);
                 v_Encoded.resize(v_outToEncode.size()/3*4+4);
                 size_t sz=EncodeToBase64((const unsigned char*)&v_outToEncode[0],v_outToEncode.size(),(unsigned char *)&v_Encoded[0],0);
@@ -763,7 +803,7 @@ struct meta_prop_new<I, ele_g,St,T[N1],is_writable>
                 v_out += v_Encoded + "\n";
             }
             else{
-                v_out += v_outToEncode;
+                v_out += v_outToEncode_.str();
             };
             v_out += "        </DataArray>\n";
         }
