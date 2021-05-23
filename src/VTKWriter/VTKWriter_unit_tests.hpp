@@ -700,12 +700,12 @@ BOOST_AUTO_TEST_CASE( vtk_writer_use_grids)
 		vtk_g.add(g4,offset4,spacing4,d4);
 
 		openfpm::vector<std::string> prp_names;
-		vtk_g.write("vtk_grids_1d.vtk",prp_names);
+		vtk_g.write("vtk_grids_1d.vtp",prp_names);
 
 	#ifndef SE_CLASS3
 
 		// Check that match
-		bool test = compare("vtk_grids_1d.vtk","test_data/vtk_grids_test_1d.vtk");
+		bool test = compare("vtk_grids_1d.vtp","test_data/vtk_grids_test_1d.vtp");
 		BOOST_REQUIRE_EQUAL(test,true);
 
 	#endif
@@ -755,12 +755,12 @@ BOOST_AUTO_TEST_CASE( vtk_writer_use_grids)
 		vtk_g.add(g4,offset4,spacing4,d4);
 
 		openfpm::vector<std::string> prp_names;
-		vtk_g.write("vtk_grids.vtk",prp_names);
+		vtk_g.write("vtk_grids.vtp",prp_names);
 
 	#ifndef SE_CLASS3
 
 		// Check that match
-		bool test = compare("vtk_grids.vtk","test_data/vtk_grids_test.vtk");
+		bool test = compare("vtk_grids.vtp","test_data/vtk_grids_test.vtp");
 		BOOST_REQUIRE_EQUAL(test,true);
 
 	#endif
@@ -864,10 +864,10 @@ BOOST_AUTO_TEST_CASE( vtk_writer_use_grids)
 	vtk_g.add(g4,offset4,spacing4,d4);
 
 	openfpm::vector<std::string> prp_names;
-	vtk_g.write("vtk_grids_prp.vtk",prp_names);
+	vtk_g.write("vtk_grids_prp.vtp",prp_names);
 
 	// Check that match
-	bool test = compare("vtk_grids_prp.vtk","test_data/vtk_grids_prp_test.vtk");
+	bool test = compare("vtk_grids_prp.vtp","test_data/vtk_grids_prp_test.vtp");
 	BOOST_REQUIRE_EQUAL(test,true);
 	}
 
@@ -914,12 +914,12 @@ BOOST_AUTO_TEST_CASE( vtk_writer_use_grids)
 	vtk_g.add(g4,offset4,spacing4,d4);
 
 	openfpm::vector<std::string> prp_names;
-	vtk_g.write("vtk_grids_unk.vtk",prp_names);
+	vtk_g.write("vtk_grids_unk.vtp",prp_names);
 
 #ifndef SE_CLASS3
 
 	// Check that match
-	bool test = compare("vtk_grids_unk.vtk","test_data/vtk_grids_test.vtk");
+	bool test = compare("vtk_grids_unk.vtp","test_data/vtk_grids_test.vtp");
 	BOOST_REQUIRE_EQUAL(test,true);
 
 #endif
