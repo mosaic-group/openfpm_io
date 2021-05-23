@@ -263,16 +263,24 @@ class VTKWriter<pair,VECTOR_GRIDS>
 
 		v_out<<"      <Points>\n";
 
-        if (opt == file_type::ASCII)
+        std::stringstream binaryToEncode;
+        if (std::is_same<typename pair::second,float>::value == true)
         {
-            v_out<<"        <DataArray type=\"Float64\" Name=\"Points\" NumberOfComponents=\"3\" format=\"ascii\">\n";
-        }
+			binaryToEncode << std::setprecision(7);
+			if (opt == file_type::ASCII)
+			{v_out<<"        <DataArray type=\"Float32\" Name=\"Points\" NumberOfComponents=\"3\" format=\"ascii\">\n";}
+			else
+			{v_out<<"        <DataArray type=\"Float32\" Name=\"Points\" NumberOfComponents=\"3\" format=\"binary\">\n";}
+		}
         else
         {
-            v_out<<"        <DataArray type=\"Float64\" Name=\"Points\" NumberOfComponents=\"3\" format=\"binary\">\n";
-        }
+			binaryToEncode << std::setprecision(16);
+			if (opt == file_type::ASCII)
+			{v_out<<"        <DataArray type=\"Float64\" Name=\"Points\" NumberOfComponents=\"3\" format=\"ascii\">\n";}
+			else
+			{v_out<<"        <DataArray type=\"Float64\" Name=\"Points\" NumberOfComponents=\"3\" format=\"binary\">\n";}
+		}
 
-        std::stringstream binaryToEncode;
 		//! For each defined grid
         if (opt == file_type::BINARY)
         {
