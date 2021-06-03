@@ -81,6 +81,8 @@ target_include_directories (io PUBLIC ${TINYOBJLOADER_INCLUDE_DIRS} )
 target_include_directories (io PUBLIC ${Boost_INCLUDE_DIRS})
 target_include_directories (io PUBLIC ${OPENFPM_PDATA_DIR}/src)
 target_include_directories (io PUBLIC ${ALPAKA_ROOT}/include)
+target_include_directories (io PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../../openfpm_live_in_situ/include/)
+
 
 if (PETSC_FOUND)
 	target_include_directories(io PUBLIC ${PETSC_INCLUDES})
@@ -91,6 +93,8 @@ target_link_libraries(io ${HDF5_LIBRARIES})
 target_link_libraries(io ${TINYOBJLOADER_LIBRARIES} )
 target_link_libraries(io vcluster)
 target_link_libraries(io ofpmmemory)
+target_link_libraries(io ofpinsitu)
+
 if (PETSC_FOUND)
 	target_link_libraries(io ${PETSC_LIBRARIES})
 endif()
