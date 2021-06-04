@@ -242,7 +242,6 @@ class VTKWriter<pair,VECTOR_GRIDS>
 		std::string v_out;
 
 		// write the number of vertex
-
 		v_out += "    <Piece NumberOfPoints=\"" + std::to_string(get_total()) + "\" " +"NumberOfVerts=\"" + std::to_string(get_total()) + "\">\n";
 
 		// return the vertex properties string

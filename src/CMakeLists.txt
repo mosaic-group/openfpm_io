@@ -8,13 +8,42 @@ if (CUDA_ON_CPU)
 	add_definitions(-DCUDA_ON_CPU)
 endif()
 
+if (CUDA_FOUND OR CUDA_ON_CPU OR HIP_FOUND)
 
-add_executable(io main.cpp 
+	set(CUDA_SOURCES HDF5_wr/HDF5_writer_cuda.cu)
+
+endif()
+
+if ( HIP_ENABLE AND HIP_FOUND )
+
+        list(APPEND HIP_HIPCC_FLAGS ${CMAKE_CXX_FLAGS_DEBUG})
+
+        if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+                list(APPEND HIP_HIPCC_FLAGS -O0)
+        endif()
+
+        set(CMAKE_CXX_COMPILER ${HIP_HIPCC_EXECUTABLE})
+
+	list(APPEND HIP_HIPCC_FLAGS -D__NVCC__ -D__HIP__  -DCUDART_VERSION=11000 -D__CUDACC__ -D__CUDACC_VER_MAJOR__=11 -D__CUDACC_VER_MINOR__=0 -D__CUDACC_VER_BUILD__=0)
+
+        set_source_files_properties(${CUDA_SOURCES} PROPERTIES LANGUAGE CXX)
+
+        hip_add_executable(io main.cpp
+                                  MetaParser/MetaParser_unit_test.cpp
+				  ${CUDA_SOURCES}
+                                  ObjReader/ObjReader_unit_test.cpp)
+
+
+else()
+
+	add_executable(io main.cpp 
 				  MetaParser/MetaParser_unit_test.cpp 
-				  HDF5_wr/HDF5_writer_cuda.cu 
 				  ObjReader/ObjReader_unit_test.cpp
 				  catalyst/test/insitu_catalyst_unit_tests.cpp
-				  OpenPMD_writer/test/OpenPMD_writer_test.cpp)
+				  OpenPMD_writer/test/OpenPMD_writer_test.cpp
+				  ${CUDA_SOURCES})
+
+endif()
 
 add_dependencies(io ofpmmemory)
 add_dependencies(io vcluster)
@@ -58,6 +87,7 @@ target_include_directories (io PUBLIC ${TINYOBJLOADER_INCLUDE_DIRS} )
 target_include_directories (io PUBLIC ${Boost_INCLUDE_DIRS})
 target_include_directories (io PUBLIC ${OPENFPM_PDATA_DIR}/src)
 target_include_directories (io PUBLIC ${ALPAKA_ROOT}/include)
+target_include_directories (io PUBLIC ${LIBHILBERT_INCLUDE_DIRS})
 if (PNG_FOUND)
     target_include_directories (io PUBLIC {PNG_INCLUDE_DIRS})
 endif()
@@ -99,8 +129,8 @@ endif()
 # As this is a public compile feature anything that links to particles
 # will also build with -std=c++11
 target_compile_features(io PUBLIC cxx_std_11)
-target_link_libraries(io PRIVATE ${MPI_C_LIBRARIES})
-
+target_link_libraries(io PUBLIC ${MPI_C_LIBRARIES})
+target_link_libraries(io PUBLIC ${MPI_CXX_LIBRARIES})
 if (TEST_COVERAGE)
     target_link_libraries(io -lgcov)
 endif()
