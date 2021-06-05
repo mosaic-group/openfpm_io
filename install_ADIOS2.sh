@@ -12,14 +12,13 @@ if [ -d "$1/ADIOS2" -a -f "$1/ADIOS2/include/hdf5.h" ]; then
 fi
 
 
-### 1.8.19 does not compile on CYGWIN
 wget http://ppmcore.mpi-cbg.de/upload/ADIOS2-2.7.1.tar.gz
 tar -xf ADIOS2-2.7.1.tar.gz
 cd ADIOS2-2.7.1
 
 mkdir build
 cd build
-cmake ../. -DADIOS2_USE_MPI=ON -DCMAKE_INSTALL_PREFIX=$1/ADIOS2
+cmake ../. -DADIOS2_USE_MPI=ON -DADIOS2_USE_Fortran=OFF  -DCMAKE_INSTALL_PREFIX=$1/ADIOS2
 make -j $2
 
 make install
