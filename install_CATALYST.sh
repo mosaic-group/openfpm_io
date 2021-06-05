@@ -6,7 +6,7 @@ discover_os
 
 # check if the directory $1/HDF5 exist
 
-if [ -d "$1/CATALYST" -a -f "$1/CATALYST/include/catalyst.h" ]; then
+if [ -d "$1/CATALYST" -a -f "$1/CATALYST/include/catalyst-2.0/catalyst.h" ]; then
   echo "CATALYST is already installed"
   exit 0
 fi
