@@ -6,7 +6,7 @@ discover_os
 
 # check if the directory $1/HDF5 exist
 
-if [ -d "$1/ADIOS2" -a -f "$1/ADIOS2/include/hdf5.h" ]; then
+if [ -d "$1/ADIOS2" -a -f "$1/ADIOS2/include/adios2.h" ]; then
   echo "ADIOS2 is already installed"
   exit 0
 fi
