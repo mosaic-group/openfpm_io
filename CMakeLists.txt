@@ -53,16 +53,27 @@ find_package(PETSc)
 find_package(catalyst REQUIRED)
 find_package(Vc)
 find_package(PNG)
-find_package(openPMD)
 find_package(HIP)
 find_package(LibHilbert)
+find_package(openPMD)
+find_package(ADIOS2)
+find_package(catalyst)
+
+if(openPMD_FOUND)
+	set(DEFINE_OPENPMD "#define HAVE_OPENPMD")
+endif()
+
+if(ADIOS2_FOUND)
+	set(DEFINE_ADIOS2 "#define HAVE_ADIOS2")
+endif()
+
+if(catalyst_FOUND)
+	set(DEFINE_CATALYST "#define HAVE_CATALYST")
+endif()
 
 if(HIP_FOUND)
         set(DEFINE_HIP_GPU "#define HIP_GPU")
         set(DEFINE_CUDIFY_USE_HIP "#define CUDIFY_USE_HIP")
-endif()
-
-if(HIP_FOUND)
         set(DEFINE_CUDA_GPU "#define CUDA_GPU")
 endif()
 

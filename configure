@@ -99,6 +99,8 @@ enable_libtool_lock
 enable_debug
 with_metis
 with_hdf5
+with_openpmd
+with_catalyst
 with_libhilbert
 enable_cuda_on_cpu
 enable_scan_coverty

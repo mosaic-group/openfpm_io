@@ -1,3 +1,12 @@
+/* OPENPMD support */
+${DEFINE_OPENPMD}
+
+/* ADIOS2 support */
+${DEFINE_ADIOS2}
+
+/* CATALYST support */
+${DEFINE_CATALYST}
+
 /* HIP GPU support */
 ${DEFINE_HIP_GPU}
 

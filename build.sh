@@ -47,6 +47,9 @@ if [ x"$hostname" == x"cifarm-centos-node.mpi-cbg.de"  ]; then
 	./install_HDF5.sh $HOME/openfpm_dependencies/openfpm_io/$branch/ 4
 	./install_LIBHILBERT.sh $HOME/openfpm_dependencies/openfpm_io/$branch/ 4
         ./install_VCDEVEL.sh $HOME/openfpm_dependencies/openfpm_io/$branch/ 4 gcc g++
+	./install_CATALYST.sh $HOME/openfpm_dependencies/openfpm_io/$branch/ 4
+	./install_ADIOS2.sh $HOME/openfpm_dependencies/openfpm_io/$branch/ 4
+	./install_OPENPMD.sh $HOME/openfpm_dependencies/openfpm_io/$branch/ 4
 fi
 
 if [ x"$hostname" == x"cifarm-ubuntu-node"  ]; then
@@ -56,6 +59,9 @@ if [ x"$hostname" == x"cifarm-ubuntu-node"  ]; then
 	./install_HDF5.sh $HOME/openfpm_dependencies/openfpm_io/$branch/ 4
         ./install_LIBHILBERT.sh $HOME/openfpm_dependencies/openfpm_io/$branch/ 4
         ./install_VCDEVEL.sh $HOME/openfpm_dependencies/openfpm_io/$branch/ 4 gcc g++
+        ./install_CATALYST.sh $HOME/openfpm_dependencies/openfpm_io/$branch/ 4
+        ./install_ADIOS2.sh $HOME/openfpm_dependencies/openfpm_io/$branch/ 4
+        ./install_OPENPMD.sh $HOME/openfpm_dependencies/openfpm_io/$branch/ 4
 fi
 
 if [ x"$hostname" == x"cifarm-mac-node.mpi-cbg.de"  ]; then
@@ -66,6 +72,9 @@ if [ x"$hostname" == x"cifarm-mac-node.mpi-cbg.de"  ]; then
 	./install_HDF5.sh $HOME/openfpm_dependencies/openfpm_io/$branch/ 4
         ./install_LIBHILBERT.sh $HOME/openfpm_dependencies/openfpm_io/$branch/ 4
         ./install_VCDEVEL.sh $HOME/openfpm_dependencies/openfpm_io/$branch/ 4 gcc g++
+        ./install_CATALYST.sh $HOME/openfpm_dependencies/openfpm_io/$branch/ 4
+        ./install_ADIOS2.sh $HOME/openfpm_dependencies/openfpm_io/$branch/ 4
+        ./install_OPENPMD.sh $HOME/openfpm_dependencies/openfpm_io/$branch/ 4
 fi
 
 # Go in the right branch
@@ -73,7 +82,7 @@ fi
 echo "Compiling on $2"
 
 sh ./autogen.sh
-sh ./configure CXX=mpic++ --with-vcdevel=$HOME/openfpm_dependencies/openfpm_io/$branch/VCDEVEL --with-libhilbert=$HOME/openfpm_dependencies/openfpm_io/$branch/LIBHILBERT --with-hdf5=$HOME/openfpm_dependencies/openfpm_io/$branch/HDF5 --with-boost=$HOME/openfpm_dependencies/openfpm_io/$branch/BOOST --with-pdata=../../openfpm_pdata/ --enable-cuda-on-cpu
+sh ./configure CXX=mpic++ --with-vcdevel=$HOME/openfpm_dependencies/openfpm_io/$branch/VCDEVEL --with-libhilbert=$HOME/openfpm_dependencies/openfpm_io/$branch/LIBHILBERT --with-hdf5=$HOME/openfpm_dependencies/openfpm_io/$branch/HDF5 --with-boost=$HOME/openfpm_dependencies/openfpm_io/$branch/BOOST --with-openpmd=$HOME/openfpm_dependencies/openfpm_io/$branch/OPENPMD --with-catalyst=$HOME/openfpm_dependencies/openfpm_io/$branch/CATALYST --with-adios2=$HOME/openfpm_dependencies/openfpm_io/$branch/ADIOS2   --with-pdata=../../openfpm_pdata/ --enable-cuda-on-cpu
 
 make VERBOSE=1 -j 4
 
