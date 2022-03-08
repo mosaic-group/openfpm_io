@@ -369,7 +369,7 @@ public:
  *
  */
 template<typename T>
-class prop_write_out<0,T>
+class prop_write_out<1,T>
 {
 public:
 
@@ -452,7 +452,7 @@ public:
  *
  */
 template<typename T>
-class prop_write_out_new<0,T>
+class prop_write_out_new<1,T>
 {
 public:
 
@@ -531,7 +531,7 @@ struct meta_prop
                 // if there is the next element
                 while (it.isNext())
                 {
-                    prop_write_out<vtk_dims<T>::value != 1,T>::template write<decltype(vg),decltype(it),I>(stream_out,vg,k,it,ft);
+                    prop_write_out<vtk_dims<T>::value,T>::template write<decltype(vg),decltype(it),I>(stream_out,vg,k,it,ft);
 
                     // increment the iterator and counter
                     ++it;
@@ -773,7 +773,7 @@ struct meta_prop_new
 				// if there is the next element
 				while (it.isNext())
 				{
-					prop_write_out_new<vtk_dims<T>::value != 1,T>::template write<decltype(vg),decltype(it),I>(v_outToEncode_,vg,k,it,ft);
+					prop_write_out_new<vtk_dims<T>::value,T>::template write<decltype(vg),decltype(it),I>(v_outToEncode_,vg,k,it,ft);
 
 					// increment the iterator and counter
 					++it;
@@ -1014,9 +1014,6 @@ struct meta_prop_new<I,ele_g,St,T,false>
 	inline meta_prop_new(const openfpm::vector< ele_g > & vg, std::string & v_out, const openfpm::vector<std::string> & prop_names, file_type ft)
 	{
 	}
-
-    static inline void get_pvtp_out(std::string & v_out, const openfpm::vector<std::string> & prop_names)
-    {}
 };
 
 template<unsigned int dims,typename T> inline void output_point(Point<dims,T> & p,std::stringstream & v_out, file_type ft)
