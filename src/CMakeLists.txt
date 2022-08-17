@@ -2,17 +2,11 @@ cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
 ########################### Executables
 
-if (CUDA_ON_CPU)
-	add_definitions(-DCUDA_ON_CPU)
-endif()
-
-if (CUDA_FOUND OR CUDA_ON_CPU OR HIP_FOUND)
-
+if(NOT CUDA_ON_BACKEND STREQUAL "None")
 	set(CUDA_SOURCES HDF5_wr/HDF5_writer_cuda.cu)
-
 endif()
 
-if ( HIP_ENABLE AND HIP_FOUND )
+if ( CUDA_ON_BACKEND STREQUAL "HIP" AND HIP_FOUND )
 
         list(APPEND HIP_HIPCC_FLAGS ${CMAKE_CXX_FLAGS_DEBUG})
 
@@ -20,34 +14,33 @@ if ( HIP_ENABLE AND HIP_FOUND )
                 list(APPEND HIP_HIPCC_FLAGS -O0)
         endif()
 
-        set(CMAKE_CXX_COMPILER ${HIP_HIPCC_EXECUTABLE})
+#        set(CMAKE_CXX_COMPILER ${HIP_HIPCC_EXECUTABLE})
 
 	list(APPEND HIP_HIPCC_FLAGS -D__NVCC__ -D__HIP__  -DCUDART_VERSION=11000 -D__CUDACC__ -D__CUDACC_VER_MAJOR__=11 -D__CUDACC_VER_MINOR__=0 -D__CUDACC_VER_BUILD__=0)
 
         set_source_files_properties(${CUDA_SOURCES} PROPERTIES LANGUAGE CXX)
 
         hip_add_executable(io main.cpp
-                                  MetaParser/MetaParser_unit_test.cpp
-				  ${CUDA_SOURCES}
-                                  ObjReader/ObjReader_unit_test.cpp)
+		        MetaParser/MetaParser_unit_test.cpp
+				${CUDA_SOURCES}
+                ObjReader/ObjReader_unit_test.cpp
+		        CSVReader/tests/CSVReader_unit_test.cpp)
 
 
 else()
 
 	add_executable(io main.cpp
-				  MetaParser/MetaParser_unit_test.cpp 
+				  MetaParser/MetaParser_unit_test.cpp
 				  ${CUDA_SOURCES}
-				  ObjReader/ObjReader_unit_test.cpp)
+				  ObjReader/ObjReader_unit_test.cpp
+			      CSVReader/tests/CSVReader_unit_test.cpp)
+
+	set_property(TARGET io PROPERTY CUDA_ARCHITECTURES OFF)
 
 endif()
 
 add_dependencies(io ofpmmemory)
 add_dependencies(io vcluster)
-
-if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-	target_compile_options(io PRIVATE "-Wno-undefined-var-template")
-	target_compile_options(io PRIVATE "-Wno-macro-redefined")
-endif()
 
 if ( CMAKE_COMPILER_IS_GNUCC )
     target_compile_options(io PRIVATE "-Wno-deprecated-declarations")
@@ -56,8 +49,6 @@ if ( CMAKE_COMPILER_IS_GNUCC )
     endif()
 endif()
 
-
-
 if (CMAKE_CUDA_COMPILER_ID STREQUAL "Clang")
         add_definitions(-D__STRICT_ANSI__)
 endif()
@@ -65,19 +56,18 @@ endif()
 ###########################
 
 if (CUDA_FOUND)
-	target_compile_options(io PUBLIC $<$<COMPILE_LANGUAGE:CUDA>: ${WARNING_SUPPRESSION_AND_OPTION_NVCC} >)
 	target_include_directories (io PUBLIC ${MPI_C_INCLUDE_DIRS})
 
    	if( CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.0 )
-        	add_compile_options( "-fabi-version=6" )
-    	endif()
+    	add_compile_options( "-fabi-version=6" )
+    endif()
 
-        if (TEST_COVERAGE)
-                target_compile_options(io PRIVATE $<$<COMPILE_LANGUAGE:CUDA>: -Xcompiler "-fprofile-arcs -ftest-coverage" >)
-        endif()
+    if (TEST_COVERAGE)
+    	target_compile_options(io PRIVATE $<$<COMPILE_LANGUAGE:CUDA>: -Xcompiler "-fprofile-arcs -ftest-coverage" >)
+	endif()
 endif()
 
-target_include_directories (io PUBLIC ${CUDA_INCLUDE_DIRS})
+target_include_directories (io PUBLIC ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
 target_include_directories (io PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories (io PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../../openfpm_devices/src/)
 target_include_directories (io PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../../openfpm_vcluster/src/)
@@ -99,6 +89,10 @@ target_link_libraries(io ${HDF5_LIBRARIES})
 target_link_libraries(io ${TINYOBJLOADER_LIBRARIES} )
 target_link_libraries(io vcluster)
 target_link_libraries(io ofpmmemory)
+if (OPENMP_FOUND)
+	target_link_libraries(io OpenMP::OpenMP_CXX)
+endif()
+
 if (PETSC_FOUND)
 	target_link_libraries(io ${PETSC_LIBRARIES})
 endif()
@@ -123,6 +117,10 @@ install(FILES CSVWriter/csv_multiarray.hpp
 	      CSVWriter/is_csv_writable.hpp
 	      DESTINATION openfpm_io/include/CSVWriter/
 	      COMPONENT OpenFPM)
+
+install(FILES CSVReader/CSVReader.hpp
+		DESTINATION openfpm_io/include/CSVReader/
+		COMPONENT OpenFPM)
       
 install(FILES GraphMLWriter/GraphMLWriter.hpp 
 	DESTINATION openfpm_io/include/GraphMLWriter
