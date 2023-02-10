@@ -100,7 +100,7 @@ static bool check_if_directory_exists(std::string path)
  *
  * @param path Std::string that contains path including name of the folder that should be created.
  */
-static void create_directory_if_not_exist(std::string path)
+static void create_directory_if_not_exist(std::string path,bool silent=0)
 {
 	auto & v_cl = create_vcluster();
 	if (v_cl.rank() == 0)
@@ -110,7 +110,11 @@ static void create_directory_if_not_exist(std::string path)
 			boost::filesystem::create_directory(path);
 //			BOOST_LOG_TRIVIAL(info) << "Created directory with name: " << path;
 		}
-		else std::cout << "Folder for current settings ( '" << path << "' ) already exists. New files will be saved to this folder." << std::endl;
+		else {
+            if(!silent){
+                std::cout << "Folder for current settings ( '" << path << "' ) already exists. New files will be saved to this folder." << std::endl;
+                 }
+            }
 //		BOOST_LOG_TRIVIAL(info) << "Folder for current settings ( '" << path << "' ) already exists. New files will be saved to this folder.";
 	}
 }
