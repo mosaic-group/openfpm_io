@@ -4,9 +4,6 @@ workspace=$1
 hostname=$(hostname)
 branch=$3
 
-echo "Trying to fix the CI"
-rm -rf $1/.git/modules/gdbgui/rebase-merge
-
 echo "Directory: $workspace"
 echo "Machine: $hostname"
 echo "Branch name: $branch"
