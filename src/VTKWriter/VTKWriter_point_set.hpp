@@ -626,7 +626,7 @@ public:
     {
         //openfpm::vector< ele_vpp<typename pair::second>> vpp;
         // Header for the vtk
-        create_directory_if_not_exist("VTPDATA",1);
+        //create_directory_if_not_exist("VTPDATA",1);
         std::string vtk_header;
         std::string Name_data;
         std::string PpointEnd;
@@ -752,7 +752,7 @@ public:
         std::string closingFile="      </PointData>\n    </Piece>\n  </PolyData>\n</VTKFile>";
 
         // write the file
-        create_directory_if_not_exist("VTPDATA",1);
+        //create_directory_if_not_exist("VTPDATA",1);
         std::ofstream ofs("VTPDATA/"+file);
 
         // Check if the file is open
