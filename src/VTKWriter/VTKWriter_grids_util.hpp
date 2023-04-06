@@ -702,6 +702,82 @@ struct meta_prop<I, ele_g,St, T[N1][N2],is_writable>
     }
 };
 
+//! Partial specialization for N=3 3D-Array
+template<typename I, typename ele_g, typename St ,typename T,size_t N1,size_t N2, size_t N3, bool is_writable>
+struct meta_prop<I, ele_g,St, T[N1][N2][N3],is_writable>
+{
+
+    /*! \brief Write a vtk compatible type into vtk format
+     *
+     * \param vg array of elements to write
+     * \param v_out string containing the string
+     * \param prop_names property names
+     * \param ft ASCII or BINARY
+     *
+     */
+    inline meta_prop(const openfpm::vector< ele_g > & vg, std::string & v_out, const openfpm::vector<std::string> & prop_names, file_type ft)
+    {
+        for (size_t i1 = 0 ; i1 < N1 ; i1++)
+        {
+            for (size_t i2 = 0 ; i2 < N2 ; i2++)
+            {
+	      for (size_t i3 = 0 ; i3 < N3 ; i3++)
+		{
+		  std::ostringstream stream_out;
+		  if (std::is_same<T,float>::value == true)
+		    {stream_out << std::setprecision(7);}
+		  else
+		    {stream_out << std::setprecision(16);}
+
+		  // actual string size
+		  size_t sz = v_out.size();
+		  
+		  // Produce the point properties header
+		  v_out += get_point_property_header_impl<I::value,ele_g,has_attributes<typename ele_g::value_type::value_type>::value>("_" + std::to_string(i1) + "_" + std::to_string(i2) + "_" + std::to_string(i3),prop_names);
+		  
+		  // If the output has changed, we have to write the properties
+		  if (v_out.size() != sz)
+		    {
+		      // Produce point data
+		      
+		      for (size_t k = 0 ; k < vg.size() ; k++)
+			{
+			  //! Get a vertex iterator
+			  auto it = vg.get(k).g.getIterator();
+			  
+			  // if there is the next element
+			  while (it.isNext())
+			    {
+			      T tmp;
+			      
+			      if (ft == file_type::ASCII)
+				{
+				  // Print the property
+				  stream_out << vg.get(k).g.template get<I::value>(it.get())[i1][i2][i3] << "\n";
+				}
+			      else
+				{
+				  tmp = vg.get(k).g.template get<I::value>(it.get())[i1][i2][i3];
+				  tmp = swap_endian_lt(tmp);
+				  stream_out.write((const char *)&tmp,sizeof(tmp));
+				}
+			      
+			      // increment the iterator and counter
+			      ++it;
+			    }
+			}
+		      
+		      v_out += stream_out.str();
+		      
+		      if (ft == file_type::BINARY)
+                        v_out += "\n";
+		    }
+		}
+	    }
+	}
+    }
+};
+
 
 //! Specialication when is not writable
 template<typename I, typename ele_g, typename St, typename T>
@@ -995,6 +1071,105 @@ struct meta_prop_new<I, ele_g,St, T[N1][N2],is_writable>
             }
         }
     }
+};
+
+//! Partial specialization for N=3 3D-Array
+template<typename I, typename ele_g, typename St ,typename T,size_t N1,size_t N2, size_t N3, bool is_writable>
+struct meta_prop_new<I, ele_g,St, T[N1][N2][N3],is_writable>
+{
+
+  /*! \brief Write a vtk compatible type into vtk format
+   *
+   * \param vg array of elements to write
+   * \param v_out string containing the string
+   * \param prop_names property names
+   * \param ft ASCII or BINARY
+   *
+   */
+  inline meta_prop_new(const openfpm::vector< ele_g > & vg, std::string & v_out, const openfpm::vector<std::string> & prop_names, file_type ft)
+  {
+    std::string v_outToEncode,v_Encoded;
+
+    for (size_t i1 = 0 ; i1 < N1 ; i1++)
+      {
+	for (size_t i2 = 0 ; i2 < N2 ; i2++)
+	  {
+	    for (size_t i3 = 0 ; i3 < N3 ; i3++)
+	      {
+		v_outToEncode.clear();
+		// actual string size
+		size_t sz = v_out.size();
+
+		// Produce the point properties header
+		v_out += get_point_property_header_impl_new<I::value,ele_g,has_attributes<typename ele_g::value_type::value_type>::value>("_" + std::to_string(i1) + "_" + std::to_string(i2) + "_" + std::to_string(i3),prop_names, ft);
+
+		// If the output has changed, we have to write the properties
+		if (v_out.size() != sz)
+		  {
+		    if (ft == file_type::BINARY) {
+		      v_outToEncode.append(8,0);
+		    }
+		    // Produce point data
+		    
+		    for (size_t k = 0 ; k < vg.size() ; k++)
+		      {
+			//! Get a vertex iterator
+			auto it = vg.get(k).g.getIterator();
+			
+			// if there is the next element
+			while (it.isNext())
+			  {
+			    T tmp;
+			    
+			    if (ft == file_type::ASCII)
+			      {
+				// Print the property
+				v_outToEncode += std::to_string(vg.get(k).g.template get<I::value>(it.get())[i1][i2][i3]) + "\n";
+			      }
+			    else
+			      {
+				tmp = vg.get(k).g.template get<I::value>(it.get())[i1][i2][i3];
+				//tmp = swap_endian_lt(tmp);
+				v_outToEncode.append((const char *)&tmp,sizeof(tmp));
+			      }
+			    
+			    // increment the iterator and counter
+			    ++it;
+			  }
+		      }
+		    if (ft == file_type::BINARY)
+		      {
+			*(size_t *) &v_outToEncode[0] = v_outToEncode.size()-sizeof(size_t);
+			v_Encoded.resize(v_outToEncode.size()/3*4+4);
+			size_t sz=EncodeToBase64((const unsigned char*)&v_outToEncode[0],v_outToEncode.size(),(unsigned char *)&v_Encoded[0],0);
+			v_Encoded.resize(sz);
+			v_out += v_Encoded + "\n";
+		      }
+		    else{
+		      v_out += v_outToEncode;
+		    };
+		    v_out += "        </DataArray>\n";
+		    
+		  }
+	      } // Closes N3
+	  } // Closes N2
+      } // Closes N1
+  }
+
+  static inline void get_pvtp_out(std::string & v_out, const openfpm::vector<std::string> & prop_names)
+  {
+    for (size_t i1 = 0 ; i1 < N1 ; i1++)
+      {
+	for (size_t i2 = 0 ; i2 < N2 ; i2++)
+	  {
+	    for (size_t i3 = 0 ; i3 < N3 ; i3++)
+	      {
+
+		v_out += get_point_property_header_impl_new_pvtp<I::value,ele_g,has_attributes<typename ele_g::value_type::value_type>::value>("_" + std::to_string(i1) + "_" + std::to_string(i2) + "_" + std::to_string(i3),prop_names);
+	      }
+	  }
+      }
+  }
 };
 
 
