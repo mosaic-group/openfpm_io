@@ -1114,10 +1114,10 @@ BOOST_AUTO_TEST_CASE( vtk_writer_use_point_set )
 	vtk_v.add(v3ps,v3pp,90);
 
 	openfpm::vector<std::string> prp_names;
-    vtk_v.write_pvtp("vtk_points",prp_names,2);
 	vtk_v.write("vtk_points.vtp",prp_names);
 	//auto &v_cl=create_vcluster();
 	//size_t n=v_cl.size();
+	vtk_v.write_pvtp("vtk_points",prp_names,2);
 
 
 #ifndef SE_CLASS3
@@ -1125,7 +1125,7 @@ BOOST_AUTO_TEST_CASE( vtk_writer_use_point_set )
 	bool test = true;
 
 	// Check that match
-	test = compare("VTPDATA/vtk_points.vtp","test_data/vtk_points_test.vtp");
+	test = compare("vtk_points.vtp","test_data/vtk_points_test.vtp");
 	BOOST_REQUIRE_EQUAL(test,true);
 
 	//It just checks generation of the format and not actual data (File names)
@@ -1143,7 +1143,7 @@ BOOST_AUTO_TEST_CASE( vtk_writer_use_point_set )
 #ifndef SE_CLASS3
 
 	// Check that match
-	test = compare("VTPDATA/vtk_points_pp.vtp","test_data/vtk_points_pp_test.vtp");
+	test = compare("vtk_points_pp.vtp","test_data/vtk_points_pp_test.vtp");
 	BOOST_REQUIRE_EQUAL(test,true);
 
 #endif
@@ -1160,10 +1160,10 @@ BOOST_AUTO_TEST_CASE( vtk_writer_use_point_set )
 #ifndef SE_CLASS3
 
 	// Check that match
-	test = compare("VTPDATA/vtk_points_pp_header.vtp","test_data/vtk_points_pp_header_test.vtp");
+	test = compare("vtk_points_pp_header.vtp","test_data/vtk_points_pp_header_test.vtp");
 	BOOST_REQUIRE_EQUAL(test,true);
 
-	test = compare("VTPDATA/vtk_points_pp_header_bin.vtp","test_data/vtk_points_pp_header_bin_test.vtp");
+	test = compare("vtk_points_pp_header_bin.vtp","test_data/vtk_points_pp_header_bin_test.vtp");
 	BOOST_REQUIRE_EQUAL(test,true);
 
 #endif
@@ -1226,7 +1226,7 @@ BOOST_AUTO_TEST_CASE( vtk_writer_use_point_set_properties )
 #ifndef SE_CLASS3
 
 	// Check that match
-	bool test = compare("VTPDATA/vtk_points_with_prp_names.vtp","test_data/vtk_points_with_prp_names_test.vtp");
+	bool test = compare("vtk_points_with_prp_names.vtp","test_data/vtk_points_with_prp_names_test.vtp");
 	BOOST_REQUIRE_EQUAL(test,true);
 
 #endif
@@ -1285,7 +1285,7 @@ BOOST_AUTO_TEST_CASE( vtk_writer_use_point_set_check_out_precision )
 #ifndef SE_CLASS3
 
 	// Check that match
-	bool test = compare("VTPDATA/vtk_points_with_prp_names_prec_check.vtp","test_data/vtk_points_with_prp_names_prec_check_test.vtp");
+	bool test = compare("vtk_points_with_prp_names_prec_check.vtp","test_data/vtk_points_with_prp_names_prec_check_test.vtp");
 	BOOST_REQUIRE_EQUAL(test,true);
 
 #endif
@@ -1391,9 +1391,9 @@ BOOST_AUTO_TEST_CASE( vtk_writer_use_point_set_binary )
 		bool test = true;
 
 		// Check that match
-		test = compare("VTPDATA/vtk_points_bin.vtp","test_data/vtk_points_bin_test.vtp");
+		test = compare("vtk_points_bin.vtp","test_data/vtk_points_bin_test.vtp");
 		BOOST_REQUIRE_EQUAL(test,true);
-		test = compare("VTPDATA/vtk_points_bin2.vtp","test_data/vtk_points_bin_test.vtp");
+		test = compare("vtk_points_bin2.vtp","test_data/vtk_points_bin_test.vtp");
 		BOOST_REQUIRE_EQUAL(test,true);
 
 #endif
@@ -1407,7 +1407,7 @@ BOOST_AUTO_TEST_CASE( vtk_writer_use_point_set_binary )
 #ifndef SE_CLASS3
 
 		// Check that match
-		test = compare("VTPDATA/vtk_points_pp_bin.vtp","test_data/vtk_points_pp_bin_test.vtp");
+		test = compare("vtk_points_pp_bin.vtp","test_data/vtk_points_pp_bin_test.vtp");
 		BOOST_REQUIRE_EQUAL(test,true);
 
 #endif
@@ -1505,7 +1505,7 @@ BOOST_AUTO_TEST_CASE( vtk_writer_use_point_set_binary )
 		bool test = true;
 
 		// Check that match
-		test = compare("VTPDATA/vtk_points_2d_bin.vtp","test_data/vtk_points_2d_bin_test.vtp");
+		test = compare("vtk_points_2d_bin.vtp","test_data/vtk_points_2d_bin_test.vtp");
 		BOOST_REQUIRE_EQUAL(test,true);
 
 #endif
@@ -1519,7 +1519,7 @@ BOOST_AUTO_TEST_CASE( vtk_writer_use_point_set_binary )
 #ifndef SE_CLASS3
 
 		// Check that match
-		test = compare("VTPDATA/vtk_points_2d_pp_bin.vtp","test_data/vtk_points_2d_pp_bin_test.vtp");
+		test = compare("vtk_points_2d_pp_bin.vtp","test_data/vtk_points_2d_pp_bin_test.vtp");
 		BOOST_REQUIRE_EQUAL(test,true);
 
 #endif

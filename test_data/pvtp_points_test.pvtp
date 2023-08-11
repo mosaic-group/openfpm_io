@@ -8,7 +8,7 @@
     <PPoints>
       <PDataArray type="Float64" Name="Points" NumberOfComponents="3"/>
     </PPoints>
-    <Piece Source="./VTPDATA/vtk_points_0.vtp"/>
-    <Piece Source="./VTPDATA/vtk_points_1.vtp"/>
+    <Piece Source="vtk_points_0.vtp"/>
+    <Piece Source="vtk_points_1.vtp"/>
   </PPolyData>
 </VTKFile>

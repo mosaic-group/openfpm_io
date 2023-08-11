@@ -3,7 +3,6 @@
  *
  *  Created on: Feb 6, 2016
  *      Author: i-bird
- *      Modified pvtp writer by: Abhinav
  */
 
 #ifndef OPENFPM_IO_SRC_VTKWRITER_POINT_SET_HPP_
@@ -16,8 +15,6 @@
 #include <string>
 #include "byteswap_portable.hpp"
 #include "MetaParser/MetaParser.hpp"
-#include <util/PathsAndFiles.hpp>
-
 
 /*! \brief Store a reference to the vector position
  *
@@ -626,7 +623,6 @@ public:
     {
         //openfpm::vector< ele_vpp<typename pair::second>> vpp;
         // Header for the vtk
-        create_directory_if_not_exist("VTPDATA",1);
         std::string vtk_header;
         std::string Name_data;
         std::string PpointEnd;
@@ -645,12 +641,12 @@ public:
 
         if (timestamp==-1) {
             for (int i = 0; i < n; i++)
-            { Piece += "    <Piece Source=\"./VTPDATA/" + file.substr(0, file.size()) + "_" +std::to_string(i) + ".vtp\"/>\n";}
+            { Piece += "    <Piece Source=\"" + file.substr(0, file.size()) + "_" +std::to_string(i) + ".vtp\"/>\n";}
             file +=  ".pvtp";
         }
         else{
             for (int i = 0; i < n; i++)
-            { Piece += "    <Piece Source=\"./VTPDATA/" + file.substr(0, file.size()) + "_" +std::to_string(i) + "_" + std::to_string(timestamp) + ".vtp\"/>\n";}
+            { Piece += "    <Piece Source=\"" + file.substr(0, file.size()) + "_" +std::to_string(i) + "_" + std::to_string(timestamp) + ".vtp\"/>\n";}
             file += "_" + std::to_string(timestamp) + ".pvtp";
         }
         std::string closingFile="  </PPolyData>\n</VTKFile>";
@@ -752,12 +748,11 @@ public:
         std::string closingFile="      </PointData>\n    </Piece>\n  </PolyData>\n</VTKFile>";
 
         // write the file
-        create_directory_if_not_exist("VTPDATA",1);
-        std::ofstream ofs("VTPDATA/"+file);
+        std::ofstream ofs(file);
 
         // Check if the file is open
         if (ofs.is_open() == false)
-        {std::cerr << "Error cannot create the VTK/VTP file. Maybe the \"VTPDATA\" folder cannot be created.: " + file + "\n";}
+        {std::cerr << "Error cannot create the VTK file: " + file + "\n";}
 
         ofs << vtk_header << point_prop_header << point_list <<
             vertex_prop_header << vertex_list << point_data_header << point_data << closingFile;
