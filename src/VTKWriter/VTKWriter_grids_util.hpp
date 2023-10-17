@@ -1186,9 +1186,9 @@ struct meta_prop_new<I,ele_g,St,T,false>
 	 * \param ft ASCII or BINARY
 	 *
 	 */
-	inline meta_prop_new(const openfpm::vector< ele_g > & vg, std::string & v_out, const openfpm::vector<std::string> & prop_names, file_type ft)
-	{
-	}
+	inline meta_prop_new(const openfpm::vector< ele_g > & vg, std::string & v_out, const openfpm::vector<std::string> & prop_names, file_type ft) {}
+
+	static inline void get_pvtp_out(std::string & v_out, const openfpm::vector<std::string> & prop_names) {}
 };
 
 template<unsigned int dims,typename T> inline void output_point(Point<dims,T> & p,std::stringstream & v_out, file_type ft)
