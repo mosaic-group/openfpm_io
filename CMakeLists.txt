@@ -46,6 +46,8 @@ find_package(MPI REQUIRED)
 find_package(HDF5 REQUIRED)
 find_package(TinyObjLoader)
 find_package(PETSc)
+find_package(catalyst 2.0)
+
 if (NOT CUDA_ON_BACKEND STREQUAL "HIP")
 	find_package(OpenMP)
 endif()
@@ -90,6 +92,10 @@ endif()
 
 if(PETSC_FOUND)
         set(DEFINE_HAVE_PETSC "#define HAVE_PETSC")
+endif()
+
+if(catalyst_FOUND)
+        set(DEFINE_HAVE_CATALYST "#define HAVE_CATALYST")
 endif()
 
 if(HDF5_FOUND)

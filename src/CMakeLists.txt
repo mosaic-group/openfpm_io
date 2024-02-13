@@ -22,6 +22,7 @@ if ( CUDA_ON_BACKEND STREQUAL "HIP" AND HIP_FOUND )
 
         hip_add_executable(io main.cpp
 		        MetaParser/MetaParser_unit_test.cpp
+				Catalyst/catalyst_unit_test.cpp
 				${CUDA_SOURCES}
                 ObjReader/ObjReader_unit_test.cpp
 		        CSVReader/tests/CSVReader_unit_test.cpp)
@@ -31,6 +32,7 @@ else()
 
 	add_executable(io main.cpp
 				  MetaParser/MetaParser_unit_test.cpp
+				  Catalyst/catalyst_unit_test.cpp
 				  ${CUDA_SOURCES}
 				  ObjReader/ObjReader_unit_test.cpp
 			      CSVReader/tests/CSVReader_unit_test.cpp)
@@ -79,6 +81,23 @@ target_include_directories (io PUBLIC ${TINYOBJLOADER_INCLUDE_DIRS} )
 target_include_directories (io PUBLIC ${Boost_INCLUDE_DIRS})
 target_include_directories (io PUBLIC ${OPENFPM_PDATA_DIR}/src)
 target_include_directories (io PUBLIC ${ALPAKA_ROOT}/include)
+target_include_directories (io PUBLIC ${METIS_ROOT}/include)
+target_include_directories (io PUBLIC ${PARMETIS_ROOT}/include)
+target_include_directories (io PUBLIC ${LIBHILBERT_INCLUDE_DIRS})
+
+if (Vc_FOUND)
+	target_include_directories (io PUBLIC ${Vc_INCLUDE_DIR})
+	target_link_libraries(io ${Vc_LIBRARIES})
+endif()
+
+if (PNG_FOUND)
+	target_include_directories (io PUBLIC ${PNG_INCLUDE_DIRS})
+	target_link_libraries(io ${PNG_LIBRARIES})
+endif()
+
+if (catalyst_FOUND)
+    target_link_libraries(io catalyst::catalyst)
+endif()
 
 if (PETSC_FOUND)
 	target_include_directories(io PUBLIC ${PETSC_INCLUDES})
@@ -89,6 +108,8 @@ target_link_libraries(io ${HDF5_LIBRARIES})
 target_link_libraries(io ${TINYOBJLOADER_LIBRARIES} )
 target_link_libraries(io vcluster)
 target_link_libraries(io ofpmmemory)
+target_link_libraries(io ${PARMETIS_LIBRARIES})
+
 if (OPENMP_FOUND)
 	target_link_libraries(io OpenMP::OpenMP_CXX)
 endif()
@@ -169,6 +190,11 @@ install(FILES Plot/GoogleChart.hpp Plot/util.hpp
 	DESTINATION openfpm_io/include/Plot
 	COMPONENT OpenFPM)
 
+install(FILES Catalyst/catalyst_adaptor.hpp
+	Catalyst/catalyst_adaptor_grid_dist.hpp
+	Catalyst/catalyst_adaptor_vector_dist.hpp
+	DESTINATION openfpm_io/include/Catalyst
+	COMPONENT OpenFPM)
 
 #if(BUILD_TESTING)
 
