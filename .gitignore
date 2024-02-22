@@ -38,21 +38,11 @@ Thumbs.db
 
 ###### Other
 
-AUTHORS
-COPYING
-ChangeLog
-INSTALL
-NEWS
-README
 Makefile
 Makefile.in
 config.status
-configure
-numerics
 **/.deps
 **/src/config
-aclocal.m4
-**/autom4te.cache
 src/io
 csv_out.csv
 test_graph.graphml

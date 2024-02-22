@@ -77,12 +77,7 @@ target_include_directories (io PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/config)
 target_include_directories (io PUBLIC ${HDF5_ROOT}/include)
 target_include_directories (io PUBLIC ${TINYOBJLOADER_INCLUDE_DIRS} )
 target_include_directories (io PUBLIC ${Boost_INCLUDE_DIRS})
-target_include_directories (io PUBLIC ${OPENFPM_PDATA_DIR}/src)
 target_include_directories (io PUBLIC ${ALPAKA_ROOT}/include)
-
-if (PETSC_FOUND)
-	target_include_directories(io PUBLIC ${PETSC_INCLUDES})
-endif()
 
 target_link_libraries(io ${Boost_LIBRARIES})
 target_link_libraries(io ${HDF5_LIBRARIES})
@@ -91,10 +86,6 @@ target_link_libraries(io vcluster)
 target_link_libraries(io ofpmmemory)
 if (OPENMP_FOUND)
 	target_link_libraries(io OpenMP::OpenMP_CXX)
-endif()
-
-if (PETSC_FOUND)
-	target_link_libraries(io ${PETSC_LIBRARIES})
 endif()
 
 # Request that particles be built with -std=c++11
@@ -168,22 +159,4 @@ install(FILES util/PathsAndFiles.hpp
 install(FILES Plot/GoogleChart.hpp Plot/util.hpp
 	DESTINATION openfpm_io/include/Plot
 	COMPONENT OpenFPM)
-
-
-#if(BUILD_TESTING)
-
-#  add_executable(particle_test test.cu)
-
-#  set_target_properties(particle_test PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
-#  target_link_libraries(particle_test PRIVATE particles)
-
-#  add_test(NAME particles_10k COMMAND particle_test 10000 )
-#  add_test(NAME particles_256k COMMAND particle_test 256000 )
-
-#  if(APPLE)
-    # We need to add the default path to the driver (libcuda.dylib) as an rpath,
-    # so that the static cuda runtime can find it at runtime.
-    #    set_property(TARGET particle_test PROPERTY BUILD_RPATH ${CMAKE_CUDA_IMPLICIT_LINK_DIRECTORIES})
-    #  endif()
-    #endif()
 
