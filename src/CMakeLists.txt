@@ -74,6 +74,10 @@ target_include_directories (io PUBLIC ${TINYOBJLOADER_INCLUDE_DIRS} )
 target_include_directories (io PUBLIC ${Boost_INCLUDE_DIRS})
 target_include_directories (io PUBLIC ${ALPAKA_ROOT}/include)
 
+if (PETSC_FOUND)
+	target_include_directories(io PUBLIC ${PETSC_INCLUDES})
+endif()
+
 target_link_libraries(io ${Boost_LIBRARIES})
 target_link_libraries(io ${HDF5_LIBRARIES})
 target_link_libraries(io ${TINYOBJLOADER_LIBRARIES} )
@@ -82,6 +86,10 @@ target_link_libraries(io ofpmmemory)
 
 if (OPENMP_FOUND)
 	target_link_libraries(io OpenMP::OpenMP_CXX)
+endif()
+
+if (PETSC_FOUND)
+        target_link_libraries(io ${PETSC_LIBRARIES})
 endif()
 
 # Request that particles be built with -std=c++11
