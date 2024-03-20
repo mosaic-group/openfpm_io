@@ -15,13 +15,8 @@ if(TINYOBJLOADER_FOUND)
         set(DEFINE_HAVE_TINYOBJLOADER "#define HAVE_TINYOBJLOADER 1")
 endif()
 
-
 include_directories(SYSTEM ${MPI_INCLUDE_PATH})
 
-add_subdirectory (../openfpm_vcluster openfpm_vcluster)
-
-# collect all configs and write to config.h before compiling src
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/config/config_cmake.h.in ${CMAKE_CURRENT_SOURCE_DIR}/src/config/config.h)
 add_subdirectory (src)
 
 get_directory_property(hasParent PARENT_DIRECTORY)

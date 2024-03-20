@@ -87,18 +87,8 @@ BOOST_AUTO_TEST_CASE( graphml_writer_use)
 	if (v_cl.getProcessUnitID() != 0)
 		return;
 
-#ifdef OPENFPM_PDATA
-
-	if (v_cl.rank() != 0) {return;}
-	std::string c2 = std::string("openfpm_io/test_data/test_graph2_test.graphml");
-	std::string c3 = std::string("openfpm_io/test_data/test_graph_test.graphml");
-
-#else
-
 	std::string c2 = std::string("test_data/test_graph2_test.graphml");
 	std::string c3 = std::string("test_data/test_graph_test.graphml");
-
-#endif
 
 	Graph_CSR<ne_cp,ne_cp> g_csr2;
 

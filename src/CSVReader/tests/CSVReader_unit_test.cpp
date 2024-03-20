@@ -8,11 +8,7 @@
 BOOST_AUTO_TEST_SUITE(CSVReaderTestSuite)
 BOOST_AUTO_TEST_CASE(csv_reader_int_test)
 		{
-#ifdef OPENFPM_PDATA
-			std::string csv_file = std::string("openfpm_io/test_data/integer.csv");
-#else
 			std::string csv_file = std::string("test_data/integer.csv");
-#endif
 			// Read csv file into vector while linearizing
 			openfpm::vector<int> v_lin; // Vector to which csv file will be read to
 			size_t m, n; // Number of rows m and columns n
@@ -34,11 +30,7 @@ BOOST_AUTO_TEST_CASE(csv_reader_int_test)
 
 BOOST_AUTO_TEST_CASE(csv_reader_char_test)
 		{
-#ifdef OPENFPM_PDATA
-			std::string csv_file = std::string("openfpm_io/test_data/char.csv");
-#else
 			std::string csv_file = std::string("test_data/char.csv");
-#endif
 			// Read csv file into vector while linearizing
 			openfpm::vector<std::string> v_lin; // Vector to which csv file will be read to
 			size_t m, n; // Number of rows m and columns n

@@ -3,10 +3,6 @@
 
 #include <iostream>
 
-#ifdef OPENFPM_PDATA
-#include "VCluster/VCluster.hpp"
-#endif
-
 #define BOOST_DISABLE_ASSERTS
 
 #define BOOST_TEST_DYN_LINK
@@ -32,7 +28,6 @@ int main(int argc, char* argv[])
 
 #endif
 
-#include "VCluster/VCluster.hpp"
 #include "CSVWriter/CSVWriter_unit_tests.hpp"
 #include "GraphMLWriter/GraphMLWriter_unit_tests.hpp"
 #include "VTKWriter/VTKWriter_unit_tests.hpp"

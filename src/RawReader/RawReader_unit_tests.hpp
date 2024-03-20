@@ -20,16 +20,7 @@ BOOST_AUTO_TEST_CASE( raw_reader_read_test )
 	if (v_cl.getProcessUnitID() != 0)
 		return;
 
-#ifdef OPENFPM_PDATA
-
-	if (v_cl.rank() != 0) {return;}
-	std::string c2 = std::string("openfpm_io/test_data/raw_read_sv_test.bin");
-
-#else
-
 	std::string c2 = std::string("test_data/raw_read_sv_test.bin");
-
-#endif
 
 	grid_cpu<3,aggregate<float,float[3]>> read_bin_test;
 

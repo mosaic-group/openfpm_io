@@ -21,15 +21,7 @@ BOOST_AUTO_TEST_CASE( google_chart_bar_string )
 	if (v_cl.getProcessUnitID() != 0)
 		return;
 
-#ifdef OPENFPM_PDATA
-
-	std::string c2 = std::string("openfpm_io/test_data/gc_out_sc_test.html");
-
-#else
-
 	std::string c2 = std::string("test_data/gc_out_sc_test.html");
-
-#endif
 
 	//! [Producing an Histogram graph]
 
@@ -89,15 +81,7 @@ BOOST_AUTO_TEST_CASE( google_chart )
 	if (v_cl.getProcessUnitID() != 0)
 		return;
 
-#ifdef OPENFPM_PDATA
-
-	std::string c2 = std::string("openfpm_io/test_data/gc_out_test.html");
-
-#else
-
 	std::string c2 = std::string("test_data/gc_out_test.html");
-
-#endif
 
 	//! [Producing an Histogram graph]
 
@@ -155,15 +139,7 @@ BOOST_AUTO_TEST_CASE( google_chart2 )
 	if (v_cl.getProcessUnitID() != 0)
 		return;
 
-#ifdef OPENFPM_PDATA
-
-	std::string c2 = std::string("openfpm_io/test_data/gc_out2_test.html");
-
-#else
-
 	std::string c2 = std::string("test_data/gc_out2_test.html");
-
-#endif
 
 	openfpm::vector<std::string> x;
 	openfpm::vector<openfpm::vector<float>> y;
@@ -214,15 +190,7 @@ BOOST_AUTO_TEST_CASE( google_chart3 )
 	if (v_cl.getProcessUnitID() != 0)
 		return;
 
-#ifdef OPENFPM_PDATA
-
-	std::string c2 = std::string("openfpm_io/test_data/gc_out3_test.html");
-
-#else
-
 	std::string c2 = std::string("test_data/gc_out3_test.html");
-
-#endif
 
 	openfpm::vector<std::string> x;
 	openfpm::vector<openfpm::vector<float>> y;
@@ -272,15 +240,7 @@ BOOST_AUTO_TEST_CASE( google_chart4 )
 	if (v_cl.getProcessUnitID() != 0)
 		return;
 
-#ifdef OPENFPM_PDATA
-
-	std::string c2 = std::string("openfpm_io/test_data/gc_out4_test.html");
-
-#else
-
 	std::string c2 = std::string("test_data/gc_out4_test.html");
-
-#endif
 
 	openfpm::vector<std::string> x;
 	openfpm::vector<openfpm::vector<float>> y;
@@ -323,15 +283,7 @@ BOOST_AUTO_TEST_CASE( google_chart5 )
 	if (v_cl.getProcessUnitID() != 0)
 		return;
 
-#ifdef OPENFPM_PDATA
-
-	std::string c2 = std::string("openfpm_io/test_data/gc_out5_test.html");
-
-#else
-
 	std::string c2 = std::string("test_data/gc_out5_test.html");
-
-#endif
 
 	openfpm::vector<std::string> x;
 	openfpm::vector<openfpm::vector<float>> y;
@@ -366,15 +318,7 @@ BOOST_AUTO_TEST_CASE( google_chart6 )
 	if (v_cl.getProcessUnitID() != 0)
 		return;
 
-#ifdef OPENFPM_PDATA
-
-	std::string c2 = std::string("openfpm_io/test_data/gc_out6_test.html");
-
-#else
-
 	std::string c2 = std::string("test_data/gc_out6_test.html");
-
-#endif
 
 	openfpm::vector<openfpm::vector<float>> y;
 
@@ -401,15 +345,7 @@ BOOST_AUTO_TEST_CASE( google_chart_with_inject_HTML )
 	if (v_cl.getProcessUnitID() != 0)
 		return;
 
-#ifdef OPENFPM_PDATA
-
-	std::string c2 = std::string("openfpm_io/test_data/gc_out7_test.html");
-
-#else
-
 	std::string c2 = std::string("test_data/gc_out7_test.html");
-
-#endif
 
 	//! [Producing a set of histograms graphs]
 
@@ -474,15 +410,7 @@ BOOST_AUTO_TEST_CASE( google_chart_number )
 	if (v_cl.getProcessUnitID() != 0)
 		return;
 
-#ifdef OPENFPM_PDATA
-
-	std::string c2 = std::string("openfpm_io/test_data/gc_num_plot_test.html");
-
-#else
-
 	std::string c2 = std::string("test_data/gc_num_plot_test.html");
-
-#endif
 
 	//! [Producing a set of histograms graphs]
 
@@ -538,15 +466,7 @@ BOOST_AUTO_TEST_CASE( google_chart_number_lines_different_x )
 	if (v_cl.getProcessUnitID() != 0)
 		return;
 
-#ifdef OPENFPM_PDATA
-
-	std::string c2 = std::string("openfpm_io/test_data/gc_num_ydif_plot_test.html");
-
-#else
-
 	std::string c2 = std::string("test_data/gc_num_ydif_plot_test.html");
-
-#endif
 
 	//! [Producing a set of histograms graphs]
 
@@ -614,15 +534,7 @@ BOOST_AUTO_TEST_CASE( google_chart_linear_plot )
 	if (v_cl.getProcessUnitID() != 0)
 		return;
 
-#ifdef OPENFPM_PDATA
-
-	std::string c2 = std::string("openfpm_io/test_data/gc_plot_out_test.html");
-
-#else
-
 	std::string c2 = std::string("test_data/gc_plot_out_test.html");
-
-#endif
 
 	//! [Producing lines graph with style]
 
@@ -691,15 +603,7 @@ BOOST_AUTO_TEST_CASE( google_chart_linear_plot2 )
 	if (v_cl.getProcessUnitID() != 0)
 		return;
 
-#ifdef OPENFPM_PDATA
-
-	std::string c2 = std::string("openfpm_io/test_data/gc_plot2_out_test.html");
-
-#else
-
 	std::string c2 = std::string("test_data/gc_plot2_out_test.html");
-
-#endif
 
 	//! [Producing lines]
 

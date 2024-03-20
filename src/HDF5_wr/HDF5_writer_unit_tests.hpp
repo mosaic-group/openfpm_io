@@ -76,15 +76,7 @@ BOOST_AUTO_TEST_CASE( vector_dist_hdf5_load_test )
 {
 	Vcluster<> & v_cl = create_vcluster();
 
-#ifdef OPENFPM_PDATA
-
-	std::string c2 = std::string("openfpm_io/test_data/vector_dist_24.h5");
-
-#else
-
 	std::string c2 = std::string("test_data/vector_dist_24.h5");
-
-#endif
 
 	openfpm::vector<Point<3,float>> vpos;
 	openfpm::vector<aggregate<float[dim]>> vprp;

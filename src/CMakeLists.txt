@@ -68,7 +68,7 @@ target_include_directories (io PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../../openfpm_
 target_include_directories (io PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../../openfpm_vcluster/src/)
 target_include_directories (io PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../../openfpm_data/src/)
 target_include_directories (io PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../../src/)
-target_include_directories (io PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/config)
+target_include_directories (io PUBLIC ${CMAKE_BINARY_DIR}/config)
 target_include_directories (io PUBLIC ${HDF5_ROOT}/include)
 target_include_directories (io PUBLIC ${TINYOBJLOADER_INCLUDE_DIRS} )
 target_include_directories (io PUBLIC ${Boost_INCLUDE_DIRS})

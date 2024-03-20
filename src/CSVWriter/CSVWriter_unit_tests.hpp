@@ -14,19 +14,8 @@ BOOST_AUTO_TEST_CASE( csv_writer_particles )
 	if (v_cl.getProcessUnitID() != 0)
 		return;
 
-#ifdef OPENFPM_PDATA
-
-	if (v_cl.rank() != 0) {return;}
-	std::string c2 = std::string("openfpm_io/test_data/csv_out_test.csv");
-	std::string c3 = std::string("openfpm_io/test_data/csv_out_unk_test.csv");
-
-
-#else
-
 	std::string c2 = std::string("test_data/csv_out_test.csv");
 	std::string c3 = std::string("test_data/csv_out_unk_test.csv");
-
-#endif
 
 	{
 	// Allocate a property vector
