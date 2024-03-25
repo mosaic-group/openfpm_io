@@ -92,10 +92,10 @@ if (PETSC_FOUND)
         target_link_libraries(io ${PETSC_LIBRARIES})
 endif()
 
-# Request that particles be built with -std=c++11
+# Request that particles be built with -std=c++17
 # As this is a public compile feature anything that links to particles
-# will also build with -std=c++11
-target_compile_features(io PUBLIC cxx_std_11)
+# will also build with -std=c++17
+target_compile_features(io PUBLIC cxx_std_17)
 target_link_libraries(io ${MPI_C_LIBRARIES})
 target_link_libraries(io ${MPI_CXX_LIBRARIES})
 
