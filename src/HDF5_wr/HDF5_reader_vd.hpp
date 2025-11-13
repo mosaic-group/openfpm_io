@@ -147,7 +147,7 @@ public:
 		if (mpi_size_old < 0)	{return false;}
 
 	  	//Where to read metadata
-	  	int metadata_out[mpi_size_old];
+		int* metadata_out = new int[mpi_size_old];
 
 	  	for (int i = 0; i < mpi_size_old; i++)
 	  	{metadata_out[i] = 0;}
@@ -235,6 +235,7 @@ public:
 	    // Close the file.
 	    H5Fclose(file);
 	    H5Pclose(plist_id);
+	    delete[] metadata_out;
 
 	    return true;
 	}

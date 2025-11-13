@@ -126,7 +126,7 @@ public:
 
 	//    std::cout << "MPI rank: " << mpi_rank << ", MPI size: " << mpi_size << ", Offset: " << offset[0] << ", Block: " << block[0] << std::endl;
 
-	    long int metadata[mpi_size];
+		long int* metadata = new long int[mpi_size];
 
 	    for (int i = 0; i < mpi_size; i++)
 	    	metadata[i] = sz_others.get(i);
@@ -176,6 +176,7 @@ public:
 
 	    mem.decRef();
 	    delete &mem;
+	    delete[] metadata;
 	}
 
 };

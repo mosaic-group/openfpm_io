@@ -53,7 +53,7 @@ public:
 		 *****************************************************************/
 
 		int mpi_rank = v_cl.getProcessUnitID();
-		int mpi_size = v_cl.getProcessingUnits();
+		const int mpi_size = v_cl.getProcessingUnits();
 
 		MPI_Comm comm = v_cl.getMPIComm();
 		MPI_Info info  = MPI_INFO_NULL;
@@ -125,7 +125,7 @@ public:
 			{offset[0] += sz_others.get(i);}
 		}
 
-		int metadata[mpi_size];
+		int* metadata = new int[mpi_size];
 
 		for (int i = 0; i < mpi_size; i++)
 			metadata[i] = sz_others.get(i);
@@ -158,6 +158,7 @@ public:
 		H5Fclose(file);
 		mem.decRef();
 		delete &mem;
+		delete[] metadata;
 	}
 
 	/*! \brief Return the equivalent HDF5 type for T

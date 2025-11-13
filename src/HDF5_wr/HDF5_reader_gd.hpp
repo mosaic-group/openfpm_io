@@ -140,13 +140,13 @@ public:
 		//Select file dataspace
 		hid_t file_dataspace_id = H5Dget_space(dataset);
 
-		hssize_t mpi_size_old = H5Sget_select_npoints (file_dataspace_id);
+		const hssize_t mpi_size_old = H5Sget_select_npoints (file_dataspace_id);
 
 		//if (mpi_rank == 0)
 			//printf ("\nOld MPI size: %llu\n", mpi_size_old);
 
 	  	//Where to read metadata
-	  	long int metadata_out[mpi_size_old];
+		long int* metadata_out = new long int[mpi_size_old];
 
 	  	for (int i = 0; i < mpi_size_old; i++)
 	  	{
@@ -240,6 +240,7 @@ public:
 	    // Close the file.
 	    H5Fclose(file);
 	    H5Pclose(plist_id);
+	    delete[] metadata_out;
 	}
 
 };
