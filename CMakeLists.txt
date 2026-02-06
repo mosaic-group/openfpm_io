@@ -15,6 +15,10 @@ if(TINYOBJLOADER_FOUND)
         set(DEFINE_HAVE_TINYOBJLOADER "#define HAVE_TINYOBJLOADER 1")
 endif()
 
+if(catalyst_FOUND)
+        set(DEFINE_HAVE_CATALYST "#define HAVE_CATALYST")
+endif()
+
 include_directories(SYSTEM ${MPI_INCLUDE_PATH})
 
 add_subdirectory (src)
@@ -23,5 +27,6 @@ get_directory_property(hasParent PARENT_DIRECTORY)
 if(hasParent)
 	set(DEFINE_HAVE_TINYOBJLOADER ${DEFINE_HAVE_TINYOBJLOADER} CACHE INTERNAL "")
 	set(DEFINE_HAVE_HDF5 ${DEFINE_HAVE_HDF5} CACHE INTERNAL "")
+	set(DEFINE_HAVE_CATALYST ${DEFINE_HAVE_CATALYST} CACHE INTERNAL "")
 endif()
 

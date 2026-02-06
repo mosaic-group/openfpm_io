@@ -21,12 +21,14 @@ if ( CUDA_ON_BACKEND STREQUAL "HIP" AND HIP_FOUND )
 
 	hip_add_executable(io main.cpp
 		MetaParser/MetaParser_unit_test.cpp
+		Catalyst/catalyst_unit_test.cpp
 		${CUDA_SOURCES}
 		ObjReader/ObjReader_unit_test.cpp
 		CSVReader/tests/CSVReader_unit_test.cpp)
 else()
 	add_executable(io main.cpp
 		MetaParser/MetaParser_unit_test.cpp
+		Catalyst/catalyst_unit_test.cpp
 		${CUDA_SOURCES}
 		ObjReader/ObjReader_unit_test.cpp
 		CSVReader/tests/CSVReader_unit_test.cpp)
@@ -66,6 +68,7 @@ target_include_directories (io PUBLIC ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
 target_include_directories (io PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories (io PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../../openfpm_devices/src/)
 target_include_directories (io PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../../openfpm_vcluster/src/)
+target_include_directories (io PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../../openfpm_pdata/src/)
 target_include_directories (io PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../../openfpm_data/src/)
 target_include_directories (io PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../../src/)
 target_include_directories (io PUBLIC ${CMAKE_BINARY_DIR}/config)
@@ -73,6 +76,26 @@ target_include_directories (io PUBLIC ${HDF5_ROOT}/include)
 target_include_directories (io PUBLIC ${TINYOBJLOADER_INCLUDE_DIRS} )
 target_include_directories (io PUBLIC ${Boost_INCLUDE_DIRS})
 target_include_directories (io PUBLIC ${ALPAKA_ROOT}/include)
+
+if (catalyst_FOUND)
+    target_link_libraries(io catalyst::catalyst)
+
+	# libraries for Catalyst unit tests
+	target_include_directories (io PUBLIC ${METIS_ROOT}/include)
+	target_include_directories (io PUBLIC ${PARMETIS_ROOT}/include)
+	target_include_directories (io PUBLIC ${LIBHILBERT_INCLUDE_DIRS})
+	target_link_libraries(io ${PARMETIS_LIBRARIES})
+
+	if (Vc_FOUND)
+		target_include_directories (io PUBLIC ${Vc_INCLUDE_DIR})
+		target_link_libraries(io ${Vc_LIBRARIES})
+	endif()
+
+	if (PNG_FOUND)
+		target_include_directories (io PUBLIC ${PNG_INCLUDE_DIRS})
+		target_link_libraries(io ${PNG_LIBRARIES})
+	endif()
+endif()
 
 if (PETSC_FOUND)
 	target_include_directories(io PUBLIC ${PETSC_INCLUDES})
@@ -165,3 +188,8 @@ install(FILES Plot/GoogleChart.hpp Plot/util.hpp
 	DESTINATION openfpm_io/include/Plot
 	COMPONENT OpenFPM)
 
+install(FILES Catalyst/catalyst_adaptor.hpp
+	Catalyst/catalyst_adaptor_grid_dist.hpp
+	Catalyst/catalyst_adaptor_vector_dist.hpp
+	DESTINATION openfpm_io/include/Catalyst
+	COMPONENT OpenFPM)
