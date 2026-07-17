@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
 ########################### Executables
 
-if(NOT CUDA_ON_BACKEND STREQUAL "None")
+if(NOT CUDA_ON_BACKEND STREQUAL "NONE")
 	set(CUDA_SOURCES HDF5_wr/HDF5_writer_cuda.cu)
 endif()
 
@@ -164,4 +164,3 @@ install(FILES util/PathsAndFiles.hpp
 install(FILES Plot/GoogleChart.hpp Plot/util.hpp
 	DESTINATION openfpm_io/include/Plot
 	COMPONENT OpenFPM)
-
